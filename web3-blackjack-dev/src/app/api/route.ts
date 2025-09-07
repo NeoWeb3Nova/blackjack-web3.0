@@ -13,12 +13,14 @@ const gameState: {
     playerHand: Card[],
     dealerHand: Card[],
     deck: Card[],
-    message: string
+    message: string, 
+    score?: {player: number}
 } = {
     playerHand: [],
     dealerHand: [],
     deck: initialDeck,
-    message: ""
+    message: "",
+    score: {player: 0}
 };
 
 function getRandomCards(deck: Card[], count: number) {
@@ -51,7 +53,8 @@ export function GET() {
         {
             playerHand: gameState.playerHand,
             dealerHand: [gameState.dealerHand[0], {rank: "?", suit: "?"} as Card],
-            message: gameState.message
+            message: gameState.message,
+            score: gameState.score
         }
     ), {status: 200})
 }
@@ -69,6 +72,7 @@ export async function POST(request: Request) {
             const playerValue = calculateHandValue(gameState.playerHand)
             if (playerValue > 21) {
                 gameState.message = "Player busts! Dealer wins."
+                gameState.score!.player -= 1;
             } else {
                 gameState.message = "Player stands"
             }
@@ -84,16 +88,20 @@ export async function POST(request: Request) {
             const dealerHandValue = calculateHandValue(gameState.dealerHand)
             if(dealerHandValue  > 21) {
                 gameState.message = "Dealer busts! Player wins."
+                gameState.score!.player += 100;
             }   
             else if(dealerHandValue === 21) {
                 gameState.message = "Dealer hits blackjack! Dealer wins."
+                gameState.score!.player -= 1;
             }
             else {
                 const playerHandValue = calculateHandValue(gameState.playerHand)
                 if (playerHandValue > dealerHandValue) {
                     gameState.message = "Player wins!"
+                    gameState.score!.player += 100;
                 } else if (playerHandValue < dealerHandValue) {
                     gameState.message = "Dealer wins!"
+                    gameState.score!.player -= 1;
                 } else {
                     gameState.message = "It's a tie!"
                 }
@@ -113,7 +121,8 @@ export async function POST(request: Request) {
         {
             playerHand: gameState.playerHand,
             dealerHand: gameState.message === "" ? [gameState.dealerHand[0], {rank: "?", suit: "?"} as Card] : gameState.dealerHand,
-            message: gameState.message
+            message: gameState.message,
+            score: gameState.score
         }
     ), {status: 200})
 }

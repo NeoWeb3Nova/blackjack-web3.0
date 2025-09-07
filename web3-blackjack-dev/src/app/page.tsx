@@ -1,10 +1,12 @@
 'use client'
 import { useEffect, useState } from "react"
+import { scrollSepolia } from "viem/chains"
 
 export default function Page() { 
 
   const [winner, setWinner] = useState<string>("")
   const [message, setMessage] = useState<string>("")
+  const [score, setScore] = useState<{ player: number }>({ player: 0 })
 
   const [playerHand, setPlayerHand] = useState<{rank: string, suit: string}[]>([])
   const [dealerHand, setDealerHand] = useState<{rank: string, suit: string}[]>([])
@@ -16,6 +18,7 @@ export default function Page() {
       setPlayerHand(data.playerHand)
       setDealerHand(data.dealerHand)
       setMessage(data.message)
+      setScore(data.score)
     }
     initGame()
   }, [])
@@ -32,6 +35,7 @@ export default function Page() {
     setPlayerHand(data.playerHand)
     setDealerHand(data.dealerHand)
     setMessage(data.message)
+    setScore(data.score)
   }
 
   async function handleStand() {
@@ -46,6 +50,7 @@ export default function Page() {
     setPlayerHand(data.playerHand)
     setDealerHand(data.dealerHand)
     setMessage(data.message)
+    setScore(data.score)
   }
 
   async function handleReset() {
@@ -54,15 +59,20 @@ export default function Page() {
     setPlayerHand(data.playerHand)
     setDealerHand(data.dealerHand)
     setMessage(data.message)
+    setScore(data.score)
   }
 
   return (
     <div className="flex flex-col items-center h-screen bg-gray-400">
       <h1 className="my-4 text-4xl bold">Welcome the black jack game!!</h1>
-      <h2 className={
-        `my-4 text-2xl bold
-        ${winner === "player" ? "bg-green-500" : "bg-yellow-500"}`
-      }>{message}</h2>
+      <div className="flex flex-col items-center gap-2">
+        <h2 className="text-2xl bold">Score: {score.player}</h2>
+        <h2 className={
+          `text-2xl bold ${message.includes("Player wins") ? "text-green-500" : 
+            message.includes("Dealer wins") ? "text-red-500" : 
+            message.includes("tie") ? "text-yellow-500" : ""}`
+        }>{message}</h2>
+      </div>
       <div>
         dealer hand:
         <div className="flex flex-row gap-2">
