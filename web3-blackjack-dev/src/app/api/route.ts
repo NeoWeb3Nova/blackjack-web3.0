@@ -1,3 +1,5 @@
+import { json } from "stream/consumers";
+
 export interface Card {
     rank: string,
     suit: string
@@ -30,7 +32,6 @@ function getRandomCards(deck: Card[], count: number) {
     return {randomCards, remainingDeck}
 }
 
-/// Shuffle the deck
 export function GET() {
     // reset the game GameState
     gameState.playerHand = []
@@ -53,4 +54,86 @@ export function GET() {
             message: gameState.message
         }
     ), {status: 200})
+}
+
+export async function POST(request: Request) {
+
+    const {action} = await request.json()
+
+    switch(action) {
+        case "hit":
+            const { randomCards: hitCards, remainingDeck } = getRandomCards(gameState.deck, 1)
+            gameState.playerHand.push(...hitCards)
+            gameState.deck = remainingDeck
+
+            const playerValue = calculateHandValue(gameState.playerHand)
+            if (playerValue > 21) {
+                gameState.message = "Player busts! Dealer wins."
+            } else {
+                gameState.message = "Player stands"
+            }
+
+            break
+        case "stand":
+            while(calculateHandValue(gameState.dealerHand) < 17 ) {
+                const { randomCards: dealerHitCards, remainingDeck } = getRandomCards(gameState.deck, 1)
+                gameState.dealerHand.push(...dealerHitCards)
+                gameState.deck = remainingDeck  
+            }
+
+            const dealerHandValue = calculateHandValue(gameState.dealerHand)
+            if(dealerHandValue  > 21) {
+                gameState.message = "Dealer busts! Player wins."
+            }   
+            else if(dealerHandValue === 21) {
+                gameState.message = "Dealer hits blackjack! Dealer wins."
+            }
+            else {
+                const playerHandValue = calculateHandValue(gameState.playerHand)
+                if (playerHandValue > dealerHandValue) {
+                    gameState.message = "Player wins!"
+                } else if (playerHandValue < dealerHandValue) {
+                    gameState.message = "Dealer wins!"
+                } else {
+                    gameState.message = "It's a tie!"
+                }
+            }
+            break
+        case "reset":
+            gameState.playerHand = []
+            gameState.dealerHand = []
+            gameState.deck = initialDeck
+            gameState.message = ""
+            break
+        default:
+            return new Response(JSON.stringify({message: "Invalid action"}), {status: 400})
+    }
+
+    return new Response(JSON.stringify(
+        {
+            playerHand: gameState.playerHand,
+            dealerHand: gameState.message === "" ? [gameState.dealerHand[0], {rank: "?", suit: "?"} as Card] : gameState.dealerHand,
+            message: gameState.message
+        }
+    ), {status: 200})
+}
+
+function calculateHandValue(hand: Card[]): number {
+    let value = 0
+    let aceCount = 0
+    hand.forEach(card => {
+        if (card.rank === "A") {
+            aceCount += 1
+            value += 11
+        } else if (["K", "Q", "J"].includes(card.rank)) {
+            value += 10
+        } else {
+            value += parseInt(card.rank)
+        }
+    })
+    while (value > 21 && aceCount > 0) {
+        value -= 10
+        aceCount -= 1
+    }
+    return value
 }

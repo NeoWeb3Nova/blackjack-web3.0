@@ -20,12 +20,45 @@ export default function Page() {
     initGame()
   }, [])
 
+  async function handleHit() {
+    const response = await fetch('/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ action: "hit" })
+    })
+    const data = await response.json()
+    setPlayerHand(data.playerHand)
+    setDealerHand(data.dealerHand)
+    setMessage(data.message)
+  }
+
+  async function handleStand() {
+    const response = await fetch('/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ action: "stand" })
+    })
+    const data = await response.json()
+    setPlayerHand(data.playerHand)
+    setDealerHand(data.dealerHand)
+    setMessage(data.message)
+  }
+
+  async function handleReset() {
+    const response = await fetch('/api', {method: 'GET'})
+    const data = await response.json()
+    setPlayerHand(data.playerHand)
+    setDealerHand(data.dealerHand)
+    setMessage(data.message)
+  }
+
   return (
     <div className="flex flex-col items-center h-screen bg-gray-400">
       <h1 className="my-4 text-4xl bold">Welcome the black jack game!!</h1>
-      <h1 className="">
-        AAAAAAAAAAAAA
-      </h1>
       <h2 className={
         `my-4 text-2xl bold
         ${winner === "player" ? "bg-green-500" : "bg-yellow-500"}`
@@ -60,9 +93,9 @@ export default function Page() {
         </div>
       </div>
       <div className="flex flex-row gap-2 mt-4">
-        <button className="p-1 bg-amber-300 rounded-lg"> hit </button>
-        <button className="p-1 bg-amber-300 rounded-lg"> stand </button>
-        <button className="p-1 bg-amber-300 rounded-lg"> reset </button>
+        <button onClick={handleHit} className="p-1 bg-amber-300 rounded-lg"> hit </button>
+        <button onClick={handleStand} className="p-1 bg-amber-300 rounded-lg"> stand </button>
+        <button onClick={handleReset} className="p-1 bg-amber-300 rounded-lg"> reset </button>
       </div>
     </div>
   )
