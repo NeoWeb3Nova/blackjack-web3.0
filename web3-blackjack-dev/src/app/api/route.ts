@@ -72,7 +72,7 @@ export async function POST(request: Request) {
             const playerValue = calculateHandValue(gameState.playerHand)
             if (playerValue > 21) {
                 gameState.message = "Player busts! Dealer wins."
-                gameState.score!.player -= 1;
+                gameState.score!.player -= 100;
             } else {
                 gameState.message = "Player stands"
             }
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
             }   
             else if(dealerHandValue === 21) {
                 gameState.message = "Dealer hits blackjack! Dealer wins."
-                gameState.score!.player -= 1;
+                gameState.score!.player -= 100;
             }
             else {
                 const playerHandValue = calculateHandValue(gameState.playerHand)
@@ -101,7 +101,7 @@ export async function POST(request: Request) {
                     gameState.score!.player += 100;
                 } else if (playerHandValue < dealerHandValue) {
                     gameState.message = "Dealer wins!"
-                    gameState.score!.player -= 1;
+                    gameState.score!.player -= 100;
                 } else {
                     gameState.message = "It's a tie!"
                 }

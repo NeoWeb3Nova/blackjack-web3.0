@@ -10,6 +10,8 @@ export default function Page() {
 
   const [playerHand, setPlayerHand] = useState<{rank: string, suit: string}[]>([])
   const [dealerHand, setDealerHand] = useState<{rank: string, suit: string}[]>([])
+  
+  const isGameOver = message.includes("wins") || message.includes("busts") || message.includes("tie")
 
   useEffect(() => {
     const initGame = async () => {
@@ -103,9 +105,15 @@ export default function Page() {
         </div>
       </div>
       <div className="flex flex-row gap-2 mt-4">
-        <button onClick={handleHit} className="p-1 bg-amber-300 rounded-lg"> hit </button>
-        <button onClick={handleStand} className="p-1 bg-amber-300 rounded-lg"> stand </button>
-        <button onClick={handleReset} className="p-1 bg-amber-300 rounded-lg"> reset </button>
+        {!isGameOver && (
+          <>
+            <button onClick={handleHit} className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"> hit </button>
+            <button onClick={handleStand} className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"> stand </button>
+          </>
+        )}
+        {isGameOver && (
+          <button onClick={handleReset} className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"> reset </button>
+        )}
       </div>
     </div>
   )
