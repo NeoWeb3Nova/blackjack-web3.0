@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { scrollSepolia } from "viem/chains";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useSignMessage } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useSignMessage } from "wagmi";
 
 export default function Page() {
   const [winner, setWinner] = useState<string>("");
@@ -16,9 +16,11 @@ export default function Page() {
     { rank: string; suit: string }[]
   >([]);
 
-  const {address, isConnected} = useAccount()
-  const {isSigned, setIsSigned} = useState(false)
-  const {signMessageAsync} = useSignMessage()
+  const { address, isConnected } = useAccount();
+  const { connect } = useConnect();
+  const { disconnect } = useDisconnect();
+  const { signMessage } = useSignMessage();
+  const [isSigned, setIsSigned] = useState(false);
 
   const isGameOver =
     message.includes("wins") ||
@@ -80,21 +82,12 @@ export default function Page() {
     if (!address || !isConnected) return;
 
     const messageToSign = `Authenticate as ${address}`;
-    // 使用wagmi的signMessageAsync（底层用viem）
-    const signature = await signMessageAsync({
-      message: messageToSign,
-    });
-
-    // 发送签名到后端认证
-    const response = await fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'auth', address, message: messageToSign, signature }),
-    });
-
-    if(response.status === 200){
-      setIsSigned(true)
-      console.log("Authentication successful");
+    try {
+      const signature = await signMessage({ message: messageToSign });
+      setIsSigned(true);
+      console.log("Signed successfully:", signature);
+    } catch (err) {
+      console.error("Signing failed:", err);
     }
   }
 
@@ -105,14 +98,14 @@ export default function Page() {
         showBalance={true}
         accountStatus="address"
       />
-      <button
-        className="p-2 bg-blue-500 text-white rounded-lg"
-        onClick={() => {
-          handleSign()
-        }}
-      >
-        Sign with your wallet
-      </button>
+      {isConnected && !isSigned && (
+        <button
+          className="p-2 mt-4 bg-blue-500 text-white rounded-lg"
+          onClick={handleSign}
+        >
+          Sign with your wallet
+        </button>
+      )}
 
       <h1 className="my-4 text-4xl bold">Welcome the black jack game!!</h1>
       <div className="flex flex-col items-center gap-2">
