@@ -1,8 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useChainId, useSwitchChain } from "wagmi";
 import { useSignMessage } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { mainnet, sepolia } from "wagmi/chains";
+
+// Ronin Saigon Testnet definition (matching wagmi.ts)
+const roninSaigonTestnet = {
+  id: 2021,
+  name: 'Ronin Saigon Testnet',
+} as const;
 
 export default function Page() {
   const [winner, setWinner] = useState<string>("");
@@ -20,7 +27,37 @@ export default function Page() {
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
   const { signMessageAsync } = useSignMessage();
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
   const [isSigned, setIsSigned] = useState(false);
+
+  // 获取当前网络名称
+  const getCurrentNetworkName = () => {
+    switch (chainId) {
+      case mainnet.id:
+        return "Ethereum Mainnet";
+      case sepolia.id:
+        return "Sepolia Testnet";
+      case roninSaigonTestnet.id:
+        return "Ronin Saigon Testnet";
+      default:
+        return `Chain ${chainId}`;
+    }
+  };
+
+  // 监听网络变化，重置签名状态
+  useEffect(() => {
+    if (isConnected && isSigned) {
+      // 网络变化时重置签名状态，要求重新认证
+      setIsSigned(false);
+      // 清理游戏状态
+      setPlayerHand([]);
+      setDealerHand([]);
+      setMessage("");
+      setScore({ player: 0 });
+      setWinner("");
+    }
+  }, [chainId]);
 
   // 监听钱包连接状态变化，断开时重置所有状态
   useEffect(() => {
@@ -132,6 +169,9 @@ export default function Page() {
       
       {isConnected && !isSigned && (
         <div className="flex flex-col items-center mt-8">
+          <div className="mb-4 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">
+            🌐 Current Network: <strong>{getCurrentNetworkName()}</strong>
+          </div>
           <p className="text-lg mb-4">Please sign the message to authenticate and access the game</p>
           <button
             className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
@@ -152,7 +192,7 @@ export default function Page() {
       {isConnected && isSigned && (
         <>
           <div className="mb-4 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
-            ✅ Wallet connected and authenticated
+            ✅ Wallet connected and authenticated on <strong>{getCurrentNetworkName()}</strong>
           </div>
           <h1 className="my-4 text-4xl bold">Welcome the black jack game!!</h1>
           <div className="flex flex-col items-center gap-2">
