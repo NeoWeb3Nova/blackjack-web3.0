@@ -168,7 +168,7 @@ function getRandomCards(deck: Card[], count: number) {
   return { randomCards, remainingDeck };
 }
 
-const DefaultScore = { player: 0 };
+const DefaultScore = { player: "alpha" };
 
 export async function GET() {
   // reset the game GameState
