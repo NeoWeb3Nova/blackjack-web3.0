@@ -8,6 +8,7 @@ import {
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { AwsCredentialIdentity } from "@aws-sdk/types";
+import { verifyMessage } from "viem";
 
 // AWS Configuration
 const awsConfig: {
@@ -221,9 +222,37 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { action } = await request.json();
+  const body = await request.json();
+  if (!body) {
+    return new Response(JSON.stringify({ message: "No action provided" }), {
+      status: 400,
+    });
+  }
+  const { action } = body;
 
   switch (action) {
+    case "auth":
+      // Authentication logic would go here
+      const { address, message, signature } = body;
+      console.log("Auth attempt from address:", address);
+      console.log("With signature:", signature);
+      const isValid = await verifyMessage({
+        message: message,
+        signature: signature,
+        address: address,
+      }).catch((e) => {
+        console.error("Error verifying message:", e);
+        return false;
+      });
+      if (isValid) {
+        return new Response(JSON.stringify({ message: "Auth successful" }), {
+          status: 200,
+        });
+      } else {
+        return new Response(JSON.stringify({ message: "Auth failed" }), {
+          status: 401,
+        });
+      }
     case "hit":
       const { randomCards: hitCards, remainingDeck } = getRandomCards(
         gameState.deck,

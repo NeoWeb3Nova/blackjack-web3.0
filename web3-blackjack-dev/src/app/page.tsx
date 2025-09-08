@@ -77,42 +77,24 @@ export default function Page() {
   }
 
   async function handleSign() {
-    if(!isConnected) {
-      alert("Please connect your wallet first")
-      return
-    }
-    try {
-      const from = address
-      const to = "0x0000000000000000000000000000000000000000"
-      const value = BigInt(0)
-      const data = "0x"
-      const nonce = await fetch("/api/nonce").then(res => res.json()).then(data => data.nonce)
-      const gasLimit = BigInt(21000)
-      const gasPrice = BigInt(20000000000)
+    if (!address || !isConnected) return;
 
-      const message = `I am signing into the Web3 Blackjack game with nonce: ${nonce}`
+    const messageToSign = `Authenticate as ${address}`;
+    // 使用wagmi的signMessageAsync（底层用viem）
+    const signature = await signMessageAsync({
+      message: messageToSign,
+    });
 
-      const signature = await signMessageAsync({message})
+    // 发送签名到后端认证
+    const response = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'auth', address, message: messageToSign, signature }),
+    });
 
-      const verifyResponse = await fetch("/api/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({address, signature}),
-      })
-
-      const verifyData = await verifyResponse.json()
-      if(verifyData.success) {
-        alert("Signature verified successfully!")
-        setIsSigned(true)
-      } else {
-        alert("Signature verification failed!")
-      }
-
-    } catch (error) {
-      console.error("Error signing message:", error)
-      alert("Error signing message")
+    if(response.status === 200){
+      setIsSigned(true)
+      console.log("Authentication successful");
     }
   }
 
