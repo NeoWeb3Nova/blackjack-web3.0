@@ -169,9 +169,16 @@ function getRandomCards(deck: Card[], count: number) {
   return { randomCards, remainingDeck };
 }
 
-const DefaultScore = { player: "alpha" };
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const address = url.searchParams.get("address");
+  if (!address) {
+    return new Response(JSON.stringify({ message: "No address provided" }), {
+      status: 400,
+    });
+  }
+  console.log("Game start for address:", address);
 
-export async function GET() {
   // reset the game GameState
   gameState.playerHand = [];
   gameState.dealerHand = [];
@@ -193,7 +200,7 @@ export async function GET() {
   gameState.message = "";
 
   try {
-    const data = await getPlayerScore(DefaultScore.player.toString());
+    const data = await getPlayerScore(address);
     if (data) {
       gameState.score = { player: data.Score };
     } else {
@@ -228,12 +235,17 @@ export async function POST(request: Request) {
       status: 400,
     });
   }
-  const { action } = body;
+
+  const { action, address, message, signature } = body;
+  if (!action) {
+    return new Response(JSON.stringify({ message: "No action provided" }), {
+      status: 400,
+    });
+  }
 
   switch (action) {
     case "auth":
       // Authentication logic would go here
-      const { address, message, signature } = body;
       console.log("Auth attempt from address:", address);
       console.log("With signature:", signature);
       const isValid = await verifyMessage({
@@ -314,7 +326,7 @@ export async function POST(request: Request) {
 
   try {
     await savePlayerScore(
-      DefaultScore.player.toString(),
+      address,
       gameState.score?.player ?? 0
     );
   } catch (error) {

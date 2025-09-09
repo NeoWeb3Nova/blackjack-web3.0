@@ -14,7 +14,7 @@ const roninSaigonTestnet = {
 export default function Page() {
   const [winner, setWinner] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const [score, setScore] = useState<{ player: number }>({ player: 0 });
+  const [score, setScore] = useState<{ player: number } | undefined>({ player: 0 });
 
   const [playerHand, setPlayerHand] = useState<
     { rank: string; suit: string }[]
@@ -79,56 +79,101 @@ export default function Page() {
 
   useEffect(() => {
     // 只有在钱包连接且签名成功后才初始化游戏
-    if (isConnected && isSigned) {
+    if (isConnected && isSigned && address) {
       const initGame = async () => {
-        const response = await fetch("/api");
-        const data = await response.json();
-        setPlayerHand(data.playerHand);
-        setDealerHand(data.dealerHand);
-        setMessage(data.message);
-        setScore(data.score);
+        try {
+          const response = await fetch(`/api?address=${address}`);
+          if (!response.ok) {
+            console.error("Failed to initialize game:", response.statusText);
+            // 设置默认值
+            setScore({ player: 0 });
+            return;
+          }
+          const data = await response.json();
+          setPlayerHand(data.playerHand || []);
+          setDealerHand(data.dealerHand || []);
+          setMessage(data.message || "");
+          setScore(data.score || { player: 0 });
+        } catch (error) {
+          console.error("Error initializing game:", error);
+          // 设置默认值
+          setPlayerHand([]);
+          setDealerHand([]);
+          setMessage("");
+          setScore({ player: 0 });
+        }
       };
       initGame();
     }
-  }, [isConnected, isSigned]);
+  }, [isConnected, isSigned, address]);
 
   async function handleHit() {
-    const response = await fetch("/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ action: "hit" }),
-    });
-    const data = await response.json();
-    setPlayerHand(data.playerHand);
-    setDealerHand(data.dealerHand);
-    setMessage(data.message);
-    setScore(data.score);
+    try {
+      const response = await fetch("/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "hit" }),
+      });
+      if (!response.ok) {
+        console.error("Hit action failed:", response.statusText);
+        return;
+      }
+      const data = await response.json();
+      setPlayerHand(data.playerHand || []);
+      setDealerHand(data.dealerHand || []);
+      setMessage(data.message || "");
+      setScore(data.score || { player: 0 });
+    } catch (error) {
+      console.error("Error in hit action:", error);
+    }
   }
 
   async function handleStand() {
-    const response = await fetch("/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ action: "stand" }),
-    });
-    const data = await response.json();
-    setPlayerHand(data.playerHand);
-    setDealerHand(data.dealerHand);
-    setMessage(data.message);
-    setScore(data.score);
+    try {
+      const response = await fetch("/api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "stand" }),
+      });
+      if (!response.ok) {
+        console.error("Stand action failed:", response.statusText);
+        return;
+      }
+      const data = await response.json();
+      setPlayerHand(data.playerHand || []);
+      setDealerHand(data.dealerHand || []);
+      setMessage(data.message || "");
+      setScore(data.score || { player: 0 });
+    } catch (error) {
+      console.error("Error in stand action:", error);
+    }
   }
 
   async function handleReset() {
-    const response = await fetch("/api", { method: "GET" });
-    const data = await response.json();
-    setPlayerHand(data.playerHand);
-    setDealerHand(data.dealerHand);
-    setMessage(data.message);
-    setScore(data.score);
+    if (!address) return;
+    try {
+      const response = await fetch(`/api?address=${address}`, { method: "GET" });
+      if (!response.ok) {
+        console.error("Reset action failed:", response.statusText);
+        return;
+      }
+      const data = await response.json();
+      setPlayerHand(data.playerHand || []);
+      setDealerHand(data.dealerHand || []);
+      setMessage(data.message || "");
+      setScore(data.score || { player: 0 });
+    } catch (error) {
+      console.error("Error in reset action:", error);
+      // 设置默认值作为后备
+      setPlayerHand([]);
+      setDealerHand([]);
+      setMessage("");
+      setScore({ player: 0 });
+    }
   }
 
   async function handleSign() {
@@ -196,7 +241,7 @@ export default function Page() {
           </div>
           <h1 className="my-4 text-4xl bold">Welcome the black jack game!!</h1>
           <div className="flex flex-col items-center gap-2">
-            <h2 className="text-2xl bold">Score: {score.player}</h2>
+            <h2 className="text-2xl bold">Score: {score?.player ?? 0}</h2>
             <h2
               className={`text-2xl bold ${
                 message.includes("Player wins")
