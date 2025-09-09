@@ -114,6 +114,7 @@ export default function Page() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt") || ""}`,
         },
         body: JSON.stringify({ action: "hit", address }),
       });
@@ -138,6 +139,7 @@ export default function Page() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwt") || ""}`,
         },
         body: JSON.stringify({ action: "stand", address }),
       });
@@ -185,8 +187,22 @@ export default function Page() {
     try {
       const signature = await signMessageAsync({ message: messageToSign });
       if (signature) {
-        setIsSigned(true);
-        console.log("Signed successfully:", signature);
+        const response = await fetch("/api", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "auth", address, message: messageToSign, signature }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Authentication successful:", data);
+          setIsSigned(true);
+          // Store the JWT for future requests
+          localStorage.setItem("jwt", data.jsonwebtoken);
+        } else {
+          console.error("Authentication failed:", response.statusText);
+        }
       }
     } catch (err) {
       console.error("Signing failed:", err);

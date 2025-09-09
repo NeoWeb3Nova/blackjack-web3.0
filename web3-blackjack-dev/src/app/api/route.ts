@@ -9,6 +9,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { AwsCredentialIdentity } from "@aws-sdk/types";
 import { verifyMessage } from "viem";
+import jwt from "jsonwebtoken";
 
 // AWS Configuration
 const awsConfig: {
@@ -237,6 +238,46 @@ export async function POST(request: Request) {
   }
 
   const { action, address, message, signature } = body;
+
+  // 对于认证操作，跳过JWT验证
+  if (action === "auth") {
+    // 认证操作不需要JWT验证，直接进入switch语句
+  } else {
+    // 验证 JWT
+    const authHeader = request.headers.get("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return new Response(JSON.stringify({ message: "No token provided" }), {
+        status: 401,
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+    
+    // 检查 token 是否存在
+    if (!token || token === "null" || token === "undefined") {
+      return new Response(JSON.stringify({ message: "Invalid token format" }), {
+        status: 401,
+      });
+    }
+
+    try {
+      const JWT_SECRET = process.env.JWT_SECRET || "default-secret-key-for-development";
+      const data = jwt.verify(token, JWT_SECRET) as {address: string};
+      
+      if (!data.address || data.address.toLowerCase() !== address?.toLowerCase()) {
+        return new Response(JSON.stringify({ message: "Token address mismatch" }), {
+          status: 401,
+        });
+      }
+      console.log("Token is valid for address:", data.address);
+    } catch (error) {
+      console.error("JWT verification failed:", error);
+      return new Response(JSON.stringify({ message: "Invalid or expired token" }), {
+        status: 401,
+      });
+    }
+  }
+
   if (!action) {
     return new Response(JSON.stringify({ message: "No action provided" }), {
       status: 400,
@@ -264,7 +305,14 @@ export async function POST(request: Request) {
         return false;
       });
       if (isValid) {
-        return new Response(JSON.stringify({ message: "Auth successful" }), {
+        const JWT_SECRET = process.env.JWT_SECRET || "default-secret-key-for-development";
+        const token = jwt.sign(
+          { address: address },
+          JWT_SECRET
+        );
+        console.log("Generated JWT:", token);
+
+        return new Response(JSON.stringify({ message: "Auth successful", jsonwebtoken: token }), {
           status: 200,
         });
       } else {
