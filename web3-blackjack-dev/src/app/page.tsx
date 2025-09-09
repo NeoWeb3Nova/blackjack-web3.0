@@ -108,13 +108,14 @@ export default function Page() {
   }, [isConnected, isSigned, address]);
 
   async function handleHit() {
+    if (!address) return;
     try {
       const response = await fetch("/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ action: "hit" }),
+        body: JSON.stringify({ action: "hit", address }),
       });
       if (!response.ok) {
         console.error("Hit action failed:", response.statusText);
@@ -131,13 +132,14 @@ export default function Page() {
   }
 
   async function handleStand() {
+    if (!address) return;
     try {
       const response = await fetch("/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ action: "stand" }),
+        body: JSON.stringify({ action: "stand", address }),
       });
       if (!response.ok) {
         console.error("Stand action failed:", response.statusText);

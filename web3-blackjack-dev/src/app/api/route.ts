@@ -243,6 +243,13 @@ export async function POST(request: Request) {
     });
   }
 
+  // 对于需要保存分数的操作，验证address是否存在
+  if ((action === "hit" || action === "stand") && !address) {
+    return new Response(JSON.stringify({ message: "Address is required for game actions" }), {
+      status: 400,
+    });
+  }
+
   switch (action) {
     case "auth":
       // Authentication logic would go here
@@ -325,12 +332,17 @@ export async function POST(request: Request) {
   }
 
   try {
-    await savePlayerScore(
-      address,
-      gameState.score?.player ?? 0
-    );
+    // 只有在有有效地址时才保存分数
+    if (address && address.trim()) {
+      await savePlayerScore(
+        address,
+        gameState.score?.player ?? 0
+      );
+    } else {
+      console.warn("No valid address provided, skipping score save");
+    }
   } catch (error) {
-    console.error("Error in main_demo:", error);
+    console.error("Error saving player score:", error);
     gameState.score = { player: 0 };
   }
 
