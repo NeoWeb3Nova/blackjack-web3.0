@@ -8,6 +8,8 @@ import {
   useSwitchChain,
 } from "wagmi";
 import { useSignMessage } from "wagmi";
+import { SuitIcon } from '@/components/SuitIcon';
+import { LuxuryCard } from '@/components/LuxuryCard';
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { avalanche, mainnet, sepolia } from "wagmi/chains";
 
@@ -438,162 +440,64 @@ export default function Page() {
             </div>
 
             {/* 游戏区域 */}
-            <div className="space-y-8">
+            <div className="space-y-12">
               {/* 庄家区域 */}
-              <div className="text-center">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center justify-center gap-2 gradient-text">
-                  🎩 Dealer Hand
-                </h3>
-                <div className="flex flex-wrap justify-center gap-4">
+              <div className="text-center cards-container">
+                <div className="game-section-title inline-flex items-center justify-center gap-3 mb-6">
+                  <span className="text-3xl">🎩</span>
+                  <h3 className="text-3xl font-bold text-gold gradient-text">Dealer Hand</h3>
+                  <span className="text-3xl">🎩</span>
+                </div>
+                <div className="flex flex-wrap justify-center gap-6">
                   {dealerHand.map((card, index) => (
-                    <div
-                      className="relative h-44 w-32 group cursor-pointer transform transition-all duration-500 hover:scale-110 hover:rotate-3 card-flip"
+                    <LuxuryCard
                       key={index}
-                    >
-                      {/* 发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
-                      
-                      {/* 主卡片 */}
-                      <div className="relative h-full w-full bg-gradient-to-br from-slate-800 via-slate-700 to-black rounded-2xl border-2 border-gold-500 shadow-2xl group-hover:shadow-purple-500/50 card-inner premium-card overflow-hidden">
-                        
-                        {/* 顶部装饰条 */}
-                        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-r from-gold-400 via-yellow-500 to-gold-400"></div>
-                        
-                        {/* 星座装饰背景 */}
-                        <div className="absolute inset-0 opacity-10">
-                          <div className="absolute top-4 left-4 text-6xl">✦</div>
-                          <div className="absolute top-8 right-6 text-4xl">★</div>
-                          <div className="absolute bottom-8 left-6 text-5xl">✧</div>
-                          <div className="absolute bottom-4 right-4 text-3xl">✦</div>
-                        </div>
-                        
-                        {/* 顶部点数和花色 */}
-                        <div className="absolute top-10 left-3 flex flex-col items-center z-10">
-                          <div className="text-xl font-bold text-gold-400 casino-font drop-shadow-lg">{card.rank}</div>
-                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
-                        </div>
-                        
-                        {/* 中央艺术图案 */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="relative">
-                            {/* 外圈装饰 */}
-                            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gold-400 to-amber-600 flex items-center justify-center shadow-xl animate-pulse-glow">
-                              {/* 内圈 */}
-                              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border-2 border-gold-400">
-                                {/* 花色 */}
-                                <div className="text-3xl" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
-                              </div>
-                            </div>
-                            {/* 装饰元素 */}
-                            <div className="absolute -top-2 -left-2 w-6 h-6 bg-gold-400 rounded-full animate-ping opacity-30"></div>
-                            <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-purple-400 rounded-full animate-ping opacity-40"></div>
-                          </div>
-                        </div>
-                        
-                        {/* 底部点数和花色（旋转） */}
-                        <div className="absolute bottom-10 right-3 flex flex-col items-center transform rotate-180 z-10">
-                          <div className="text-xl font-bold text-gold-400 casino-font drop-shadow-lg">{card.rank}</div>
-                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
-                        </div>
-                        
-                        {/* 底部装饰条 */}
-                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-r from-gold-400 via-yellow-500 to-gold-400"></div>
-                        
-                        {/* 侧边装饰 */}
-                        <div className="absolute left-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-gold-400 to-transparent"></div>
-                        <div className="absolute right-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-gold-400 to-transparent"></div>
-                      </div>
-                    </div>
+                      rank={card.rank}
+                      suit={card.suit}
+                      className="animate-float"
+                      style={{ animationDelay: `${index * 200}ms` }}
+                    />
                   ))}
                 </div>
               </div>
 
               {/* 玩家区域 */}
-              <div className="text-center">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center justify-center gap-2 gradient-text">
-                  👤 Player Hand
-                </h3>
-                <div className="flex flex-wrap justify-center gap-4">
+              <div className="text-center cards-container">
+                <div className="game-section-title inline-flex items-center justify-center gap-3 mb-6">
+                  <span className="text-3xl">👤</span>
+                  <h3 className="text-3xl font-bold text-gold gradient-text">Player Hand</h3>
+                  <span className="text-3xl">🃏</span>
+                </div>
+                <div className="flex flex-wrap justify-center gap-6">
                   {playerHand.map((card, index) => (
-                    <div
-                      className="relative h-44 w-32 group cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-rotate-3 card-flip"
+                    <LuxuryCard
                       key={index}
-                    >
-                      {/* 发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
-                      
-                      {/* 主卡片 */}
-                      <div className="relative h-full w-full bg-gradient-to-br from-slate-800 via-slate-700 to-black rounded-2xl border-2 border-emerald-500 shadow-2xl group-hover:shadow-emerald-500/50 card-inner premium-card overflow-hidden">
-                        
-                        {/* 顶部装饰条 */}
-                        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-r from-emerald-400 via-teal-500 to-emerald-400"></div>
-                        
-                        {/* 钻石装饰背景 */}
-                        <div className="absolute inset-0 opacity-10">
-                          <div className="absolute top-4 left-4 text-6xl">◆</div>
-                          <div className="absolute top-8 right-6 text-4xl">◇</div>
-                          <div className="absolute bottom-8 left-6 text-5xl">◈</div>
-                          <div className="absolute bottom-4 right-4 text-3xl">◆</div>
-                        </div>
-                        
-                        {/* 顶部点数和花色 */}
-                        <div className="absolute top-10 left-3 flex flex-col items-center z-10">
-                          <div className="text-xl font-bold text-emerald-400 casino-font drop-shadow-lg">{card.rank}</div>
-                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
-                        </div>
-                        
-                        {/* 中央艺术图案 */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="relative">
-                            {/* 外圈装饰 */}
-                            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center shadow-xl animate-pulse-glow">
-                              {/* 内圈 */}
-                              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border-2 border-emerald-400">
-                                {/* 花色 */}
-                                <div className="text-3xl" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
-                              </div>
-                            </div>
-                            {/* 装饰元素 */}
-                            <div className="absolute -top-2 -left-2 w-6 h-6 bg-emerald-400 rounded-full animate-ping opacity-30"></div>
-                            <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-teal-400 rounded-full animate-ping opacity-40"></div>
-                          </div>
-                        </div>
-                        
-                        {/* 底部点数和花色（旋转） */}
-                        <div className="absolute bottom-10 right-3 flex flex-col items-center transform rotate-180 z-10">
-                          <div className="text-xl font-bold text-emerald-400 casino-font drop-shadow-lg">{card.rank}</div>
-                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
-                        </div>
-                        
-                        {/* 底部装饰条 */}
-                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-r from-emerald-400 via-teal-500 to-emerald-400"></div>
-                        
-                        {/* 侧边装饰 */}
-                        <div className="absolute left-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-emerald-400 to-transparent"></div>
-                        <div className="absolute right-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-emerald-400 to-transparent"></div>
-                      </div>
-                    </div>
+                      rank={card.rank}
+                      suit={card.suit}
+                      className="animate-float"
+                      style={{ animationDelay: `${index * 300}ms` }}
+                    />
                   ))}
                 </div>
               </div>
 
               {/* 游戏按钮 */}
-              <div className="flex justify-center gap-6 mt-8">
+              <div className="flex justify-center gap-8 mt-12">
                 {!isGameOver && (
                   <>
                     <button
                       onClick={handleHit}
-                      className="px-8 py-4 bg-red-gradient text-white font-bold rounded-xl 
-                               hover:scale-105 transform transition-all duration-300 
-                               shadow-glow-red hover:shadow-glow-lg border-2 border-red-400 text-xl btn-glow"
+                      className="px-10 py-5 btn-luxury rounded-2xl text-2xl font-bold
+                               hover:scale-110 transform transition-all duration-300 
+                               shadow-glow-gold hover:shadow-glow-gold-lg border-3"
                     >
                       🎯 HIT
                     </button>
                     <button
                       onClick={handleStand}
-                      className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl 
-                               hover:scale-105 transform transition-all duration-300 
-                               shadow-glow-blue hover:shadow-glow-lg border-2 border-blue-400 text-xl btn-glow"
+                      className="px-10 py-5 btn-luxury rounded-2xl text-2xl font-bold
+                               hover:scale-110 transform transition-all duration-300 
+                               shadow-glow-gold hover:shadow-glow-gold-lg border-3"
                     >
                       🛑 STAND
                     </button>
@@ -602,9 +506,9 @@ export default function Page() {
                 {isGameOver && (
                   <button
                     onClick={handleReset}
-                    className="px-8 py-4 bg-green-gradient text-white font-bold rounded-xl 
-                             hover:scale-105 transform transition-all duration-300 
-                             shadow-glow-green hover:shadow-glow-lg border-2 border-green-400 text-xl animate-pulse-glow btn-glow"
+                    className="px-12 py-6 btn-luxury rounded-2xl text-2xl font-bold
+                             hover:scale-110 transform transition-all duration-300 
+                             shadow-glow-gold hover:shadow-glow-gold-lg border-3 animate-pulse-glow"
                   >
                     🔄 PLAY AGAIN
                   </button>

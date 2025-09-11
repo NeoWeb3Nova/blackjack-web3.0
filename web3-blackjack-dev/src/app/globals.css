@@ -102,6 +102,10 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
 }
 
 .premium-card::before {
@@ -111,9 +115,10 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.6s ease;
-  z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4) 50%, transparent 100%);
+  transition: left 0.8s cubic-bezier(.4,2,.3,1);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .premium-card:hover::before {
@@ -124,14 +129,16 @@
   content: '';
   position: absolute;
   inset: 0;
-  padding: 2px;
-  background: linear-gradient(45deg, #fbbf24, #f59e0b, #dc2626, #7c3aed, #059669);
+  padding: 2.5px;
+  background: linear-gradient(120deg, #ffe066, #ffd700 30%, #fffbe6 60%, #e5c100 100%);
   border-radius: inherit;
+  box-shadow: 0 0 12px 2px #ffe06699;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: xor;
   -webkit-mask-composite: xor;
   animation: gradient-rotate 3s linear infinite;
-  opacity: 0.8;
+  opacity: 0.95;
+  pointer-events: none;
 }
 
 @keyframes gradient-rotate {
@@ -161,9 +168,10 @@
 
 /* 赌场字体 */
 .casino-font {
-  font-family: 'Cinzel', serif;
+  font-family: 'Georgia', 'Times New Roman', serif;
   font-weight: 700;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  letter-spacing: 0.02em;
 }
 
 /* 卡片翻转效果 */
@@ -176,8 +184,509 @@
 }
 
 .card-inner {
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.4s cubic-bezier(.4,2,.3,1);
   transform-style: preserve-3d;
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 16px rgba(0,0,0,0.1);
+}
+
+/* SVG花色样式 */
+.card-suit-svg {
+  width: 1.5em;
+  height: 1.5em;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+
+/* 高光动画 */
+.card-shine-anim {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  opacity: 0;
+  animation: card-shine 3s ease-in-out infinite;
+  border-radius: inherit;
+}
+
+@keyframes card-shine {
+  0%, 100% { 
+    opacity: 0;
+    transform: translateX(-100%) translateY(-100%) rotate(45deg); 
+  }
+  50% { 
+    opacity: 1;
+    transform: translateX(100%) translateY(100%) rotate(45deg); 
+  }
+}
+
+/* 背景渐变样式增强 */
+.bg-casino-gradient {
+  background: radial-gradient(ellipse at center, 
+    #1a4d3a 0%,
+    #0f2f1f 30%,
+    #0d1f17 60%,
+    #000000 100%);
+  position: relative;
+}
+
+.bg-casino-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 25%),
+    radial-gradient(circle at 75% 75%, rgba(212, 175, 55, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 25% 75%, rgba(244, 208, 63, 0.05) 0%, transparent 25%),
+    radial-gradient(circle at 75% 25%, rgba(255, 215, 0, 0.03) 0%, transparent 25%);
+  pointer-events: none;
+  animation: casino-bg-float 20s infinite ease-in-out;
+}
+
+@keyframes casino-bg-float {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: scale(1) rotate(0deg); 
+  }
+  33% { 
+    opacity: 0.8;
+    transform: scale(1.1) rotate(120deg); 
+  }
+  66% { 
+    opacity: 0.4;
+    transform: scale(0.9) rotate(240deg); 
+  }
+}
+
+/* 增强的金色渐变 */
+.bg-gold-gradient {
+  background: linear-gradient(135deg, 
+    #FFD700 0%, 
+    #F4D03F 25%, 
+    #D4AF37 50%, 
+    #B8860B 75%, 
+    #DAA520 100%);
+}
+
+.text-gold {
+  color: #F4D03F;
+  text-shadow: 0 0 10px rgba(244, 208, 63, 0.5);
+}
+
+/* 增强的绿色渐变 */  
+.bg-green-gradient {
+  background: linear-gradient(135deg, 
+    #22c55e 0%, 
+    #16a34a 50%, 
+    #15803d 100%);
+}
+
+/* 豪华阴影效果 */
+.shadow-glow-gold {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4), 
+              0 0 40px rgba(212, 175, 55, 0.2),
+              0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.shadow-glow-gold:hover {
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), 
+              0 0 60px rgba(212, 175, 55, 0.3),
+              0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* 卡片容器增强 */
+.cards-container {
+  background: rgba(26, 77, 58, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.1);
+}
+
+/* 游戏区域标题增强 */
+.game-section-title {
+  background: linear-gradient(135deg, 
+    rgba(244, 208, 63, 0.2) 0%, 
+    rgba(212, 175, 55, 0.1) 100%);
+  border: 2px solid rgba(244, 208, 63, 0.3);
+  border-radius: 15px;
+  padding: 1rem 2rem;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 增强阴影效果 */
+.shadow-glow-gold-lg {
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.7), 
+              0 0 80px rgba(212, 175, 55, 0.4),
+              0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* 边框样式 */
+.border-3 {
+  border-width: 3px;
+}
+
+/* 渐变文字增强 */
+.gradient-text {
+  background: linear-gradient(135deg, 
+    #FFD700 0%, 
+    #F4D03F 50%, 
+    #D4AF37 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+/* 卡片悬浮增强动画 */
+@keyframes luxury-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-12px) rotate(-1deg);
+  }
+}
+
+.animate-luxury-float {
+  animation: luxury-float 4s ease-in-out infinite;
+}
+
+/* 豪华扑克牌的响应式增强 */
+@media (max-width: 640px) {
+  .luxury-playing-card {
+    width: 5rem; /* 80px */
+    height: 7rem; /* 112px */
+  }
+  
+  .cards-container {
+    padding: 1rem;
+    margin: 0 1rem;
+  }
+  
+  .game-section-title {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .btn-luxury {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+  }
+}
+.btn-luxury {
+  background: linear-gradient(135deg, 
+    rgba(212, 175, 55, 0.9) 0%, 
+    rgba(244, 208, 63, 0.8) 50%, 
+    rgba(255, 215, 0, 0.9) 100%);
+  border: 2px solid #F4D03F;
+  color: #1a4d3a;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    0 4px 15px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-luxury:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.95) 0%, 
+    rgba(244, 208, 63, 0.9) 50%, 
+    rgba(212, 175, 55, 0.95) 100%);
+  box-shadow: 
+    0 6px 25px rgba(212, 175, 55, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px) scale(1.05);
+}
+.luxury-playing-card {
+  position: relative;
+  width: 8rem; /* 128px */
+  height: 11rem; /* 176px */
+  perspective: 1000px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.luxury-playing-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  z-index: 10;
+}
+
+.luxury-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(135deg, 
+    #1a4d3a 0%,     /* 深绿色 */
+    #2d5a47 25%,    /* 中绿色 */
+    #1f4d3d 50%,    /* 主绿色 */
+    #2a5746 75%,    /* 深绿色变体 */
+    #1a4d3a 100%    /* 回到深绿色 */
+  );
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 0 1px #D4AF37,
+    inset 0 0 0 2px rgba(212, 175, 55, 0.3);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.luxury-playing-card:hover .luxury-card-inner {
+  box-shadow: 
+    0 8px 40px rgba(212, 175, 55, 0.4),
+    0 0 0 2px #F4D03F,
+    inset 0 0 0 2px rgba(244, 208, 63, 0.5);
+  transform: rotateY(5deg) rotateX(5deg);
+}
+
+/* 金色边框装饰 */
+.luxury-border-decoration {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: linear-gradient(45deg, 
+    #D4AF37, #F4D03F, #FFD700, #F4D03F, #D4AF37
+  ) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: subtract;
+  mask: linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+  mask-composite: subtract;
+  opacity: 0.8;
+  animation: golden-shimmer 3s infinite;
+}
+
+/* 角落装饰 */
+.corner-ornament {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #D4AF37;
+  background: radial-gradient(circle, rgba(244, 208, 63, 0.3) 0%, transparent 70%);
+}
+
+.corner-ornament.top-left {
+  top: 4px;
+  left: 4px;
+  border-radius: 0 0 8px 0;
+}
+
+.corner-ornament.top-right {
+  top: 4px;
+  right: 4px;
+  border-radius: 0 0 0 8px;
+}
+
+.corner-ornament.bottom-left {
+  bottom: 4px;
+  left: 4px;
+  border-radius: 0 8px 0 0;
+}
+
+.corner-ornament.bottom-right {
+  bottom: 4px;
+  right: 4px;
+  border-radius: 8px 0 0 0;
+}
+
+/* 卡片角落内容 */
+.card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+}
+
+.top-left-content {
+  top: 12px;
+  left: 12px;
+}
+
+.bottom-right-content {
+  bottom: 12px;
+  right: 12px;
+  transform: rotate(180deg);
+}
+
+/* 点数显示 */
+.rank-display {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  text-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(244, 208, 63, 0.6);
+  margin-bottom: 2px;
+  letter-spacing: -0.5px;
+}
+
+/* 花色图标样式 */
+.suit-small {
+  width: 1rem !important;
+  height: 1rem !important;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4))
+          drop-shadow(0 0 6px rgba(244, 208, 63, 0.5));
+}
+
+.suit-large {
+  width: 4rem !important;
+  height: 4rem !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4))
+          drop-shadow(0 0 12px rgba(244, 208, 63, 0.6));
+  opacity: 0.9;
+}
+
+/* 中央花色位置 */
+.center-suit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+/* 花色背景光晕 */
+.suit-background-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5rem;
+  height: 5rem;
+  background: radial-gradient(circle, 
+    rgba(244, 208, 63, 0.2) 0%, 
+    rgba(244, 208, 63, 0.1) 40%, 
+    transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: suit-glow-pulse 3s ease-in-out infinite;
+}
+
+/* 豪华图案覆盖层 */
+.luxury-pattern-overlay {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  border-radius: 6px;
+  opacity: 0.6;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 金色光晕效果 */
+.golden-glow-effect {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(244, 208, 63, 0.1) 50%, 
+    transparent 70%);
+  border-radius: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  animation: golden-glow-rotate 4s linear infinite;
+}
+
+.luxury-playing-card:hover .golden-glow-effect {
+  opacity: 1;
+}
+
+/* 动画效果 */
+@keyframes golden-shimmer {
+  0%, 100% { 
+    opacity: 0.6; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.02);
+  }
+}
+
+@keyframes suit-glow-pulse {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1); 
+  }
+  50% { 
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1); 
+  }
+}
+
+@keyframes golden-glow-rotate {
+  0% { 
+    transform: rotate(0deg) scale(1); 
+    opacity: 0.3;
+  }
+  25% { 
+    opacity: 0.6;
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.05); 
+    opacity: 0.8;
+  }
+  75% { 
+    opacity: 0.6;
+  }
+  100% { 
+    transform: rotate(360deg) scale(1); 
+    opacity: 0.3;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .luxury-playing-card {
+    width: 6rem; /* 96px */
+    height: 8.5rem; /* 136px */
+  }
+  
+  .rank-display {
+    font-size: 1.25rem; /* 20px */
+  }
+  
+  .suit-small {
+    width: 0.875rem !important;
+    height: 0.875rem !important;
+  }
+  
+  .suit-large {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
 }
 
 /* 自定义滚动条（用于可能的长内容） */
