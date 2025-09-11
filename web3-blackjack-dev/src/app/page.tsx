@@ -116,13 +116,13 @@ export default function Page() {
           if (window.ethereum) {
               setPublicClient(
               createPublicClient({
-                chain: avalanche,
+                chain: avalancheFuji,
                 transport: custom(window.ethereum),
               })
             );
             setWalletClient(
               createWalletClient({
-                chain: avalanche,
+                chain: avalancheFuji,
                 transport: custom(window.ethereum),
               })
             );
@@ -157,7 +157,7 @@ export default function Page() {
     }
 
     // Before sending a transaction, try publicClient to read some data from the contract to ensure connectivity
-    if (!contractAddress || !contractABI || contractABI.length === 0) {
+    if (!contractAddress || !contractABI) {
       console.error("Contract address or ABI not set");
       return;
     }
