@@ -24,6 +24,7 @@ const roninSaigonTestnet = {
 } as const;
 
 export default function Page() {
+  const [mounted, setMounted] = useState(false);
   const [winner, setWinner] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [score, setScore] = useState<{ player: number } | undefined>({
@@ -47,6 +48,11 @@ export default function Page() {
 
   const [publicClient, setPublicClient] = useState<any>(null);
   const [walletClient, setWalletClient] = useState<any>(null);
+
+  // 客户端挂载检查
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 获取当前网络名称
   const getCurrentNetworkName = () => {
@@ -296,139 +302,224 @@ export default function Page() {
     setWinner("");
   }
 
-  return (
-    <div className="flex flex-col items-center h-screen bg-gray-400">
-      <div className="mt-8">
-        <ConnectButton
-          chainStatus="icon"
-          showBalance={true}
-          accountStatus="address"
-        />
+  // 防止水合错误
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-green-900 flex items-center justify-center">
+        <div className="text-white text-2xl">Loading...</div>
       </div>
+    );
+  }
 
-      {isConnected && !isSigned && (
-        <div className="flex flex-col items-center mt-8">
-          <div className="mb-4 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">
-            🌐 Current Network: <strong>{getCurrentNetworkName()}</strong>
+  return (
+    <div className="min-h-screen bg-casino-gradient relative overflow-hidden">
+      {/* 背景装饰效果 */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.1),transparent_70%)]"></div>
+      <div className="absolute top-10 left-10 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-10 right-10 w-40 h-40 bg-red-500/10 rounded-full blur-3xl animate-float animation-delay-1"></div>
+      <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-yellow-400/5 rounded-full blur-2xl animate-float animation-delay-2"></div>
+      
+      <div className="relative z-10 flex flex-col items-center min-h-screen py-8">
+        {/* 头部钱包连接区域 */}
+        <div className="mb-8 p-1 bg-gold-gradient rounded-2xl shadow-glow-lg animate-glow">
+          <div className="bg-green-900 rounded-xl p-2">
+            <ConnectButton
+              chainStatus="icon"
+              showBalance={true}
+              accountStatus="address"
+            />
           </div>
-          <p className="text-lg mb-4">
-            Please sign the message to authenticate and access the game
-          </p>
-          <button
-            className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            onClick={handleSign}
-          >
-            Sign with your wallet
-          </button>
         </div>
-      )}
 
-      {!isConnected && (
-        <div className="flex flex-col items-center mt-8">
-          <h1 className="text-4xl font-bold mb-4">
-            Welcome to Blackjack Game!
-          </h1>
-          <p className="text-lg">Please connect your wallet to start playing</p>
-        </div>
-      )}
-
-      {isConnected && isSigned && (
-        <>
-          <div className="mb-4 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
-            ✅ Wallet connected and authenticated on{" "}
-            <strong>{getCurrentNetworkName()}</strong>
-          </div>
-          <h1 className="my-4 text-4xl bold">Welcome the black jack game!!</h1>
-          <div className="flex flex-col items-center gap-2">
-            <h2 className="text-2xl bold">Score: {score?.player ?? 0}</h2>
-            <div className="text-sm text-gray-700">
-              (Score {'>'}= 1000 to be eligible for NFT reward)
+        {/* 未签名状态 */}
+        {isConnected && !isSigned && (
+          <div className="flex flex-col items-center max-w-md mx-auto">
+            <div className="mb-6 p-4 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-blue-400/30 text-blue-100 rounded-xl shadow-glow float-effect">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-2xl animate-spin-slow">🌐</span>
+                <span>Current Network: <strong className="text-yellow-400 gradient-text">{getCurrentNetworkName()}</strong></span>
+              </div>
             </div>
-            {(score?.player ?? 0) >= 1000 && (
+            <div className="text-center bg-black/30 backdrop-blur-sm rounded-xl p-8 border border-yellow-400/20 shadow-card hover:shadow-card-hover transition-all duration-500">
+              <h2 className="text-2xl font-bold text-yellow-400 mb-4 gradient-text">🎰 Authentication Required</h2>
+              <p className="text-lg mb-6 text-gray-200">
+                Please sign the message to authenticate and access the casino
+              </p>
               <button
-                onClick={handleSentTx}
-                className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"
+                className="px-8 py-4 bg-gold-gradient text-black font-bold rounded-xl 
+                         hover:scale-105 transform transition-all duration-300 
+                         shadow-glow hover:shadow-glow-lg border-2 border-yellow-400 btn-glow"
+                onClick={handleSign}
               >
-                {" "}
-                Reward NFT{" "}
+                <span className="flex items-center gap-2">
+                  ✍️ Sign with your wallet
+                </span>
               </button>
-            )}
-            <h2
-              className={`text-2xl bold ${
-                message.includes("Player wins")
-                  ? "text-green-500"
-                  : message.includes("Dealer wins")
-                  ? "text-red-500"
-                  : message.includes("tie")
-                  ? "text-yellow-500"
-                  : ""
-              }`}
-            >
-              {message}
-            </h2>
-          </div>
-          <div>
-            dealer hand:
-            <div className="flex flex-row gap-2">
-              {dealerHand.map((card, index) => (
-                <div
-                  className="h-42 w-28 border-black border-1 flex flex-col justify-between rounded-sm bg-white"
-                  key={index}
-                >
-                  <h2 className="self-start text-2xl pt-3 pl-3">{card.rank}</h2>
-                  <h2 className="self-center text-3xl">{card.suit}</h2>
-                  <h2 className="self-end text-2xl pb-3 pr-3">{card.rank}</h2>
-                </div>
-              ))}
             </div>
           </div>
+        )}
 
-          <div>
-            Player hand hand:
-            <div className="flex flex-row gap-2">
-              {playerHand.map((card, index) => (
-                <div
-                  className="h-42 w-28 border-black border-1 flex flex-col justify-between rounded-sm bg-white"
-                  key={index}
-                >
-                  <h2 className="self-start text-2xl pt-3 pl-3">{card.rank}</h2>
-                  <h2 className="self-center text-3xl">{card.suit}</h2>
-                  <h2 className="self-end text-2xl pb-3 pr-3">{card.rank}</h2>
+        {/* 未连接状态 */}
+        {!isConnected && (
+          <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
+            <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-12 border border-yellow-400/30 shadow-glow-lg float-effect">
+              <h1 className="text-6xl font-bold mb-6 gradient-text animate-pulse-glow">
+                🎰 BLACKJACK CASINO
+              </h1>
+              <div className="text-2xl text-gray-200 mb-8">
+                <div className="flex items-center justify-center gap-4 mb-4">
+                  <span className="animate-float">🃏</span>
+                  <span>Welcome to the Premium Gaming Experience</span>
+                  <span className="animate-float animation-delay-3">🃏</span>
                 </div>
-              ))}
+                <p className="text-lg text-yellow-200">Connect your wallet to enter the casino</p>
+              </div>
             </div>
           </div>
-          <div className="flex flex-row gap-2 mt-4">
-            {!isGameOver && (
-              <>
-                <button
-                  onClick={handleHit}
-                  className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"
-                >
-                  {" "}
-                  hit{" "}
-                </button>
-                <button
-                  onClick={handleStand}
-                  className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"
-                >
-                  {" "}
-                  stand{" "}
-                </button>
-              </>
-            )}
-            {isGameOver && (
-              <button
-                onClick={handleReset}
-                className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"
-              >
-                {" "}
-                reset{" "}
-              </button>
-            )}
+        )}
+
+        {/* 游戏主界面 */}
+        {isConnected && isSigned && (
+          <div className="w-full max-w-6xl mx-auto px-4">
+            {/* 状态指示器 */}
+            <div className="mb-6 p-4 bg-green-gradient/20 backdrop-blur-sm 
+                          border border-green-400/30 text-green-100 rounded-xl shadow-glow-green text-center">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-xl animate-pulse">✅</span>
+                <span>Wallet connected and authenticated on <strong className="text-yellow-400 gradient-text">{getCurrentNetworkName()}</strong></span>
+              </div>
+            </div>
+
+            {/* 游戏标题 */}
+            <h1 className="text-5xl font-bold text-center mb-8 gradient-text animate-shimmer">
+              🎰 BLACKJACK CASINO 🎰
+            </h1>
+
+            {/* 分数和奖励区域 */}
+            <div className="flex flex-col items-center mb-8">
+              <div className="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-yellow-400/30 shadow-glow-lg pulse-glow-effect">
+                <h2 className="text-3xl font-bold text-center mb-2">
+                  <span className="text-yellow-400">💰 Score: </span>
+                  <span className="text-white animate-pulse gradient-text">{score?.player ?? 0}</span>
+                </h2>
+                <div className="text-sm text-gray-300 text-center mb-4">
+                  (Score ≥ 1000 to be eligible for NFT reward)
+                </div>
+                {(score?.player ?? 0) >= 1000 && (
+                  <div className="text-center">
+                    <button
+                      onClick={handleSentTx}
+                      className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl 
+                               hover:from-purple-500 hover:to-pink-500 transform hover:scale-110 transition-all duration-300 
+                               shadow-glow hover:shadow-glow-lg border-2 border-purple-400 animate-pulse-glow btn-glow"
+                    >
+                      🏆 Claim NFT Reward 🏆
+                    </button>
+                  </div>
+                )}
+              </div>
+              
+              {/* 游戏消息 */}
+              {message && (
+                <div className="mt-4">
+                  <h2 className={`text-3xl font-bold text-center px-6 py-3 rounded-xl backdrop-blur-sm border-2 transition-all duration-500 ${
+                    message.includes("Player wins")
+                      ? "text-green-400 bg-green-900/30 border-green-400 shadow-glow-green animate-pulse-glow"
+                      : message.includes("Dealer wins")
+                      ? "text-red-400 bg-red-900/30 border-red-400 shadow-glow-red"
+                      : message.includes("tie")
+                      ? "text-yellow-400 bg-yellow-900/30 border-yellow-400 shadow-glow"
+                      : "text-gray-200 bg-gray-900/30 border-gray-400"
+                  }`}>
+                    {message.includes("Player wins") && "🎉 "}{message}{message.includes("Player wins") && " 🎉"}
+                  </h2>
+                </div>
+              )}
+            </div>
+
+            {/* 游戏区域 */}
+            <div className="space-y-8">
+              {/* 庄家区域 */}
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center justify-center gap-2 gradient-text">
+                  🎩 Dealer Hand
+                </h3>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {dealerHand.map((card, index) => (
+                    <div
+                      className="relative h-32 w-24 group cursor-pointer transform transition-all duration-300 hover:scale-110 card-flip"
+                      key={index}
+                    >
+                      <div className="absolute inset-0 bg-gold-gradient rounded-lg blur-sm opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
+                      <div className="relative h-full w-full bg-white rounded-lg border-2 border-gray-800 flex flex-col justify-between shadow-card group-hover:shadow-card-hover card-inner">
+                        <div className="self-start text-xl font-bold pt-2 pl-2 text-black">{card.rank}</div>
+                        <div className="self-center text-2xl">{card.suit}</div>
+                        <div className="self-end text-xl font-bold pb-2 pr-2 text-black transform rotate-180">{card.rank}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 玩家区域 */}
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-4 flex items-center justify-center gap-2 gradient-text">
+                  👤 Player Hand
+                </h3>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {playerHand.map((card, index) => (
+                    <div
+                      className="relative h-32 w-24 group cursor-pointer transform transition-all duration-300 hover:scale-110 card-flip"
+                      key={index}
+                    >
+                      <div className="absolute inset-0 bg-red-gradient rounded-lg blur-sm opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
+                      <div className="relative h-full w-full bg-white rounded-lg border-2 border-gray-800 flex flex-col justify-between shadow-card group-hover:shadow-card-hover card-inner">
+                        <div className="self-start text-xl font-bold pt-2 pl-2 text-black">{card.rank}</div>
+                        <div className="self-center text-2xl">{card.suit}</div>
+                        <div className="self-end text-xl font-bold pb-2 pr-2 text-black transform rotate-180">{card.rank}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 游戏按钮 */}
+              <div className="flex justify-center gap-6 mt-8">
+                {!isGameOver && (
+                  <>
+                    <button
+                      onClick={handleHit}
+                      className="px-8 py-4 bg-red-gradient text-white font-bold rounded-xl 
+                               hover:scale-105 transform transition-all duration-300 
+                               shadow-glow-red hover:shadow-glow-lg border-2 border-red-400 text-xl btn-glow"
+                    >
+                      🎯 HIT
+                    </button>
+                    <button
+                      onClick={handleStand}
+                      className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl 
+                               hover:scale-105 transform transition-all duration-300 
+                               shadow-glow-blue hover:shadow-glow-lg border-2 border-blue-400 text-xl btn-glow"
+                    >
+                      🛑 STAND
+                    </button>
+                  </>
+                )}
+                {isGameOver && (
+                  <button
+                    onClick={handleReset}
+                    className="px-8 py-4 bg-green-gradient text-white font-bold rounded-xl 
+                             hover:scale-105 transform transition-all duration-300 
+                             shadow-glow-green hover:shadow-glow-lg border-2 border-green-400 text-xl animate-pulse-glow btn-glow"
+                  >
+                    🔄 PLAY AGAIN
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 }

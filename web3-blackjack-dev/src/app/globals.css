@@ -1,1 +1,153 @@
 @import "tailwindcss";
+
+/* 赌场主题自定义样式 */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(234, 179, 8, 0.6), 0 0 40px rgba(234, 179, 8, 0.4);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(234, 179, 8, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(234, 179, 8, 0.8);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Tailwind 扩展动画类 */
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* 动画延迟类 */
+.animation-delay-1 {
+  animation-delay: 1.5s;
+}
+
+.animation-delay-2 {
+  animation-delay: 3s;
+}
+
+.animation-delay-3 {
+  animation-delay: 1s;
+}
+
+.glow-effect {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.pulse-glow-effect {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.float-effect {
+  animation: float 3s ease-in-out infinite;
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* 卡片翻转效果 */
+.card-flip {
+  perspective: 1000px;
+}
+
+.card-flip:hover .card-inner {
+  transform: rotateY(10deg);
+}
+
+.card-inner {
+  transition: transform 0.3s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+/* 自定义滚动条（用于可能的长内容） */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #fbbf24, #f59e0b);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #f59e0b, #d97706);
+}
+
+/* 渐变文字效果 */
+.gradient-text {
+  background: linear-gradient(45deg, #fbbf24, #f59e0b, #dc2626);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* 按钮悬停发光效果 */
+.btn-glow:hover {
+  box-shadow: 0 0 20px currentColor;
+}
+
+/* 赌场背景渐变 */
+.bg-casino-gradient {
+  background: linear-gradient(135deg, #0f2f0f 0%, #1a4d1a 25%, #266b26 50%, #1a4d1a 75%, #0f2f0f 100%);
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+}
+
+.bg-red-gradient {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+}
+
+.bg-green-gradient {
+  background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
+}
