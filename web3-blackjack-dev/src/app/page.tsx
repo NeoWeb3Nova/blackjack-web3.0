@@ -1,20 +1,34 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useAccount, useConnect, useDisconnect, useChainId, useSwitchChain } from "wagmi";
+import { use, useEffect, useState } from "react";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useChainId,
+  useSwitchChain,
+} from "wagmi";
 import { useSignMessage } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { mainnet, sepolia } from "wagmi/chains";
+import { avalanche, mainnet, sepolia } from "wagmi/chains";
+
+
+import { createWalletClient, createPublicClient, custom, parseAbi } from "viem"
+import { avalancheFuji } from "viem/chains"
+import { AnyARecord } from "dns";
+import { count } from "console";
 
 // Ronin Saigon Testnet definition (matching wagmi.ts)
 const roninSaigonTestnet = {
   id: 2021,
-  name: 'Ronin Saigon Testnet',
+  name: "Ronin Saigon Testnet",
 } as const;
 
 export default function Page() {
   const [winner, setWinner] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const [score, setScore] = useState<{ player: number } | undefined>({ player: 0 });
+  const [score, setScore] = useState<{ player: number } | undefined>({
+    player: 0,
+  });
 
   const [playerHand, setPlayerHand] = useState<
     { rank: string; suit: string }[]
@@ -30,6 +44,9 @@ export default function Page() {
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
   const [isSigned, setIsSigned] = useState(false);
+
+  const [publicClient, setPublicClient] = useState<any>(null);
+  const [walletClient, setWalletClient] = useState<any>(null);
 
   // 获取当前网络名称
   const getCurrentNetworkName = () => {
@@ -94,6 +111,25 @@ export default function Page() {
           setDealerHand(data.dealerHand || []);
           setMessage(data.message || "");
           setScore(data.score || { player: 0 });
+
+          // 初始化 walletClient
+          if (window.ethereum) {
+              setPublicClient(
+              createPublicClient({
+                chain: avalanche,
+                transport: custom(window.ethereum),
+              })
+            );
+            setWalletClient(
+              createWalletClient({
+                chain: avalanche,
+                transport: custom(window.ethereum),
+              })
+            );
+          }
+          else {
+            console.error("Ethereum provider not found");
+          }
         } catch (error) {
           console.error("Error initializing game:", error);
           // 设置默认值
@@ -106,6 +142,39 @@ export default function Page() {
       initGame();
     }
   }, [isConnected, isSigned, address]);
+
+  async function handleSentTx() {
+    // Example function to demonstrate sending a transaction via viem
+    // get constract address and abi from env
+    const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+    const contractABI = parseAbi([process.env.NEXT_PUBLIC_CONTRACT_ABI || ""]);
+
+    // Implement transaction sending logic here using viem
+    // Before sending a transaction, ensure the user is connected and has signed in and authenticated
+    if (!address || !isConnected) {
+      console.error("Wallet not connected");
+      return;
+    }
+
+    // Before sending a transaction, try publicClient to read some data from the contract to ensure connectivity
+    if (!contractAddress || !contractABI || contractABI.length === 0) {
+      console.error("Contract address or ABI not set");
+      return;
+    }
+
+    // simulater vie publicClient
+    const { request } = await publicClient.simulateContract({
+      address: contractAddress,
+      abi: contractABI,
+      functionName: 'sendRequest',
+      args: [[address], address],
+      account: address,
+    })
+
+    // This is a placeholder and needs to be filled with actual transaction logic
+    const txHash = await walletClient.writeContract(request)
+    console.log("Transaction sent to contract:", contractAddress, "with hash:", txHash);
+  }
 
   async function handleHit() {
     if (!address) return;
@@ -160,7 +229,9 @@ export default function Page() {
   async function handleReset() {
     if (!address) return;
     try {
-      const response = await fetch(`/api?address=${address}`, { method: "GET" });
+      const response = await fetch(`/api?address=${address}`, {
+        method: "GET",
+      });
       if (!response.ok) {
         console.error("Reset action failed:", response.statusText);
         return;
@@ -192,7 +263,12 @@ export default function Page() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ action: "auth", address, message: messageToSign, signature }),
+          body: JSON.stringify({
+            action: "auth",
+            address,
+            message: messageToSign,
+            signature,
+          }),
         });
         if (response.ok) {
           const data = await response.json();
@@ -229,13 +305,15 @@ export default function Page() {
           accountStatus="address"
         />
       </div>
-      
+
       {isConnected && !isSigned && (
         <div className="flex flex-col items-center mt-8">
           <div className="mb-4 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">
             🌐 Current Network: <strong>{getCurrentNetworkName()}</strong>
           </div>
-          <p className="text-lg mb-4">Please sign the message to authenticate and access the game</p>
+          <p className="text-lg mb-4">
+            Please sign the message to authenticate and access the game
+          </p>
           <button
             className="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             onClick={handleSign}
@@ -247,7 +325,9 @@ export default function Page() {
 
       {!isConnected && (
         <div className="flex flex-col items-center mt-8">
-          <h1 className="text-4xl font-bold mb-4">Welcome to Blackjack Game!</h1>
+          <h1 className="text-4xl font-bold mb-4">
+            Welcome to Blackjack Game!
+          </h1>
           <p className="text-lg">Please connect your wallet to start playing</p>
         </div>
       )}
@@ -255,11 +335,24 @@ export default function Page() {
       {isConnected && isSigned && (
         <>
           <div className="mb-4 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
-            ✅ Wallet connected and authenticated on <strong>{getCurrentNetworkName()}</strong>
+            ✅ Wallet connected and authenticated on{" "}
+            <strong>{getCurrentNetworkName()}</strong>
           </div>
           <h1 className="my-4 text-4xl bold">Welcome the black jack game!!</h1>
           <div className="flex flex-col items-center gap-2">
             <h2 className="text-2xl bold">Score: {score?.player ?? 0}</h2>
+            <div className="text-sm text-gray-700">
+              (Score {'>'}= 1000 to be eligible for NFT reward)
+            </div>
+            {(score?.player ?? 0) >= 1000 && (
+              <button
+                onClick={handleSentTx}
+                className="p-1 bg-amber-300 rounded-lg hover:bg-amber-400"
+              >
+                {" "}
+                Reward NFT{" "}
+              </button>
+            )}
             <h2
               className={`text-2xl bold ${
                 message.includes("Player wins")
