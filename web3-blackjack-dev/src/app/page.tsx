@@ -447,14 +447,61 @@ export default function Page() {
                 <div className="flex flex-wrap justify-center gap-4">
                   {dealerHand.map((card, index) => (
                     <div
-                      className="relative h-32 w-24 group cursor-pointer transform transition-all duration-300 hover:scale-110 card-flip"
+                      className="relative h-44 w-32 group cursor-pointer transform transition-all duration-500 hover:scale-110 hover:rotate-3 card-flip"
                       key={index}
                     >
-                      <div className="absolute inset-0 bg-gold-gradient rounded-lg blur-sm opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
-                      <div className="relative h-full w-full bg-white rounded-lg border-2 border-gray-800 flex flex-col justify-between shadow-card group-hover:shadow-card-hover card-inner">
-                        <div className="self-start text-xl font-bold pt-2 pl-2 text-black">{card.rank}</div>
-                        <div className="self-center text-2xl">{card.suit}</div>
-                        <div className="self-end text-xl font-bold pb-2 pr-2 text-black transform rotate-180">{card.rank}</div>
+                      {/* 发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
+                      
+                      {/* 主卡片 */}
+                      <div className="relative h-full w-full bg-gradient-to-br from-slate-800 via-slate-700 to-black rounded-2xl border-2 border-gold-500 shadow-2xl group-hover:shadow-purple-500/50 card-inner premium-card overflow-hidden">
+                        
+                        {/* 顶部装饰条 */}
+                        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-r from-gold-400 via-yellow-500 to-gold-400"></div>
+                        
+                        {/* 星座装饰背景 */}
+                        <div className="absolute inset-0 opacity-10">
+                          <div className="absolute top-4 left-4 text-6xl">✦</div>
+                          <div className="absolute top-8 right-6 text-4xl">★</div>
+                          <div className="absolute bottom-8 left-6 text-5xl">✧</div>
+                          <div className="absolute bottom-4 right-4 text-3xl">✦</div>
+                        </div>
+                        
+                        {/* 顶部点数和花色 */}
+                        <div className="absolute top-10 left-3 flex flex-col items-center z-10">
+                          <div className="text-xl font-bold text-gold-400 casino-font drop-shadow-lg">{card.rank}</div>
+                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
+                        </div>
+                        
+                        {/* 中央艺术图案 */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="relative">
+                            {/* 外圈装饰 */}
+                            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gold-400 to-amber-600 flex items-center justify-center shadow-xl animate-pulse-glow">
+                              {/* 内圈 */}
+                              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border-2 border-gold-400">
+                                {/* 花色 */}
+                                <div className="text-3xl" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
+                              </div>
+                            </div>
+                            {/* 装饰元素 */}
+                            <div className="absolute -top-2 -left-2 w-6 h-6 bg-gold-400 rounded-full animate-ping opacity-30"></div>
+                            <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-purple-400 rounded-full animate-ping opacity-40"></div>
+                          </div>
+                        </div>
+                        
+                        {/* 底部点数和花色（旋转） */}
+                        <div className="absolute bottom-10 right-3 flex flex-col items-center transform rotate-180 z-10">
+                          <div className="text-xl font-bold text-gold-400 casino-font drop-shadow-lg">{card.rank}</div>
+                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
+                        </div>
+                        
+                        {/* 底部装饰条 */}
+                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-r from-gold-400 via-yellow-500 to-gold-400"></div>
+                        
+                        {/* 侧边装饰 */}
+                        <div className="absolute left-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-gold-400 to-transparent"></div>
+                        <div className="absolute right-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-gold-400 to-transparent"></div>
                       </div>
                     </div>
                   ))}
@@ -469,14 +516,61 @@ export default function Page() {
                 <div className="flex flex-wrap justify-center gap-4">
                   {playerHand.map((card, index) => (
                     <div
-                      className="relative h-32 w-24 group cursor-pointer transform transition-all duration-300 hover:scale-110 card-flip"
+                      className="relative h-44 w-32 group cursor-pointer transform transition-all duration-500 hover:scale-110 hover:-rotate-3 card-flip"
                       key={index}
                     >
-                      <div className="absolute inset-0 bg-red-gradient rounded-lg blur-sm opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
-                      <div className="relative h-full w-full bg-white rounded-lg border-2 border-gray-800 flex flex-col justify-between shadow-card group-hover:shadow-card-hover card-inner">
-                        <div className="self-start text-xl font-bold pt-2 pl-2 text-black">{card.rank}</div>
-                        <div className="self-center text-2xl">{card.suit}</div>
-                        <div className="self-end text-xl font-bold pb-2 pr-2 text-black transform rotate-180">{card.rank}</div>
+                      {/* 发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity glow-effect"></div>
+                      
+                      {/* 主卡片 */}
+                      <div className="relative h-full w-full bg-gradient-to-br from-slate-800 via-slate-700 to-black rounded-2xl border-2 border-emerald-500 shadow-2xl group-hover:shadow-emerald-500/50 card-inner premium-card overflow-hidden">
+                        
+                        {/* 顶部装饰条 */}
+                        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-r from-emerald-400 via-teal-500 to-emerald-400"></div>
+                        
+                        {/* 钻石装饰背景 */}
+                        <div className="absolute inset-0 opacity-10">
+                          <div className="absolute top-4 left-4 text-6xl">◆</div>
+                          <div className="absolute top-8 right-6 text-4xl">◇</div>
+                          <div className="absolute bottom-8 left-6 text-5xl">◈</div>
+                          <div className="absolute bottom-4 right-4 text-3xl">◆</div>
+                        </div>
+                        
+                        {/* 顶部点数和花色 */}
+                        <div className="absolute top-10 left-3 flex flex-col items-center z-10">
+                          <div className="text-xl font-bold text-emerald-400 casino-font drop-shadow-lg">{card.rank}</div>
+                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
+                        </div>
+                        
+                        {/* 中央艺术图案 */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="relative">
+                            {/* 外圈装饰 */}
+                            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center shadow-xl animate-pulse-glow">
+                              {/* 内圈 */}
+                              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border-2 border-emerald-400">
+                                {/* 花色 */}
+                                <div className="text-3xl" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
+                              </div>
+                            </div>
+                            {/* 装饰元素 */}
+                            <div className="absolute -top-2 -left-2 w-6 h-6 bg-emerald-400 rounded-full animate-ping opacity-30"></div>
+                            <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-teal-400 rounded-full animate-ping opacity-40"></div>
+                          </div>
+                        </div>
+                        
+                        {/* 底部点数和花色（旋转） */}
+                        <div className="absolute bottom-10 right-3 flex flex-col items-center transform rotate-180 z-10">
+                          <div className="text-xl font-bold text-emerald-400 casino-font drop-shadow-lg">{card.rank}</div>
+                          <div className="text-2xl drop-shadow-lg" style={{color: card.suit === '♥' || card.suit === '♦' ? '#ef4444' : '#f8fafc'}}>{card.suit}</div>
+                        </div>
+                        
+                        {/* 底部装饰条 */}
+                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-r from-emerald-400 via-teal-500 to-emerald-400"></div>
+                        
+                        {/* 侧边装饰 */}
+                        <div className="absolute left-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-emerald-400 to-transparent"></div>
+                        <div className="absolute right-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-emerald-400 to-transparent"></div>
                       </div>
                     </div>
                   ))}
