@@ -1,6 +1,6 @@
 # Blackjack Web3.0
 
-![Blackjack Web3.0 Logo](https://regional-gold-sturgeon.myfilebase.com/ipfs/QmbTG8vcLSGpKCKg7feYi5uCPjeZGvM63Fjt4aeMmXSU2s)
+![Blackjack Web3.0 Logo](https://regional-gold-sturgeon.myfilebase.com/ipfs/Qmb7KY9nhcLBvSexVHGtfb5KtnsDjDLesxh624WsV3MyUB)
 
 **A decentralized Blackjack game built on Web3.0 technologies**
 
