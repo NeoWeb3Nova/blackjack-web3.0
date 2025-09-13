@@ -1,17 +1,15 @@
-# Blackjack Web3.0
+# 🎰 Web3.0 Blackjack Casino
 
-![Blackjack Web3.0 Logo](https://regional-gold-sturgeon.myfilebase.com/ipfs/Qmb7KY9nhcLBvSexVHGtfb5KtnsDjDLesxh624WsV3MyUB)
-
-**A decentralized Blackjack game built on Web3.0 technologies**
+**A luxury blockchain-powered Blackjack game with stunning visual design and Web3.0 integration**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/react-%5E18.2.0-blue.svg)](https://reactjs.org/)
-[![Web3.js](https://img.shields.io/badge/web3.js-%5E4.0.0-orange.svg)](https://web3js.org/)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Next.js](https://img.shields.io/badge/Next.js-14.2.4-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue)](https://typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.13-38B2AC)](https://tailwindcss.com/)
+[![Wagmi](https://img.shields.io/badge/Wagmi-latest-green)](https://wagmi.sh/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-[Demo](https://blackjack-web3-demo.vercel.app) • [Documentation](docs/) • [Report Bug](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues) • [Request Feature](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues)
+> **Note**: This is a development version focusing on frontend implementation and Web3 integration. Backend game logic and smart contracts are under development.
 
 ## 📖 Table of Contents
 
@@ -21,78 +19,81 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Environment Setup](#environment-setup)
 - [Usage](#usage)
-- [Game Rules](#game-rules)
-- [API Documentation](#api-documentation)
-- [Smart Contract](#smart-contract)
 - [Project Structure](#project-structure)
+- [Development](#development)
+- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
-- [Acknowledgments](#acknowledgments)
 
 ## 🎮 About the Project
 
-Blackjack Web3.0 is a decentralized implementation of the classic Blackjack card game, leveraging blockchain technology to ensure transparency, fairness, and true ownership of digital assets. Players can connect their Web3 wallets, play with cryptocurrency, and earn NFT rewards.
+Web3.0 Blackjack Casino is a modern implementation of the classic Blackjack card game, featuring luxury casino-style visuals and blockchain integration. The project focuses on delivering an immersive gaming experience with beautifully designed playing cards and seamless Web3 wallet connectivity.
 
-### Why Web3.0 Blackjack?
+### Key Highlights
 
-- **🔒 Provably Fair**: All game logic runs on smart contracts ensuring transparency
-- **🎨 NFT Rewards**: Earn unique NFTs based on your gameplay achievements  
-- **💰 Crypto Integration**: Play with real cryptocurrency across multiple chains
-- **🌐 Decentralized**: No central authority controls the game
-- **🎯 Modern UI**: Beautiful, responsive interface with smooth animations
+- **🎨 Luxury Design**: Gold-green themed playing cards with premium casino aesthetics
+- **⚡ Modern Tech Stack**: Built with Next.js 14, TypeScript, and Tailwind CSS
+- **� Multi-Chain Support**: Ethereum Mainnet, Sepolia, Avalanche Fuji, Ronin Saigon Testnet
+- **📱 Responsive**: Optimized for desktop, tablet, and mobile devices
+- **🎯 Web3 Ready**: Integrated with Wagmi and RainbowKit for wallet connections
 
 ## ✨ Features
 
-### Core Gameplay
-- ♠️ **Classic Blackjack Rules** - Standard casino rules with dealer AI
-- 🎲 **Provably Fair** - Blockchain-verified randomness
-- 💎 **Multi-Chain Support** - Ethereum, Polygon, BSC compatibility
-- 🏆 **Achievement System** - Unlock rewards for milestones
+### 🃏 Game Features
+- **Classic Blackjack Gameplay** - Traditional 21-point card game rules
+- **Luxury Card Design** - Premium gold-green themed playing cards with animations
+- **Real-time Game State** - Dynamic game updates and score tracking
+- **Responsive UI** - Optimized for all screen sizes
 
-### Web3.0 Integration
-- 🔗 **Wallet Connection** - MetaMask, WalletConnect, Coinbase Wallet
-- 💰 **Cryptocurrency Betting** - ETH, MATIC, BNB support
-- 🎨 **NFT Rewards** - Collectible cards and achievements
-- 📊 **On-Chain Statistics** - Transparent game history
+### 🔗 Web3.0 Integration
+- **Multi-Wallet Support** - MetaMask and other Web3 wallets via RainbowKit
+- **Multi-Chain Support** - Ethereum, Sepolia, Avalanche Fuji, Ronin Saigon
+- **Smart Contract Ready** - Prepared for blockchain game logic integration
+- **Chainlink Functions** - Integration ready for decentralized randomness
 
-### Technical Features
-- ⚡ **Real-time Updates** - WebSocket connections
-- 📱 **Responsive Design** - Mobile-first approach
-- 🌙 **Dark/Light Mode** - User preference themes
-- 🔄 **Auto-save** - Game state persistence
+### 🎯 Technical Features
+- **Modern Frontend** - Next.js 14 with App Router
+- **Type Safety** - Full TypeScript implementation  
+- **Styling** - Tailwind CSS with custom animations
+- **State Management** - React hooks and context
+- **Database Ready** - AWS DynamoDB integration for player scores
 
 ## 🛠 Tech Stack
 
 ### Frontend
-- **React 18** - Modern React with hooks and concurrent features
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations and transitions
-- **Next.js** - React framework for production
+- **[Next.js 14](https://nextjs.org/)** - React framework with App Router
+- **[React 18](https://reactjs.org/)** - UI library with concurrent features
+- **[TypeScript 5.8.3](https://typescriptlang.org/)** - Type-safe development
+- **[Tailwind CSS 4.1.13](https://tailwindcss.com/)** - Utility-first CSS framework
 
-### Web3.0
-- **Web3.js** - Ethereum JavaScript API
-- **Ethers.js** - Ethereum wallet implementation
-- **Solidity** - Smart contract development
-- **Hardhat** - Ethereum development environment
+### Web3.0 Stack
+- **[Wagmi](https://wagmi.sh/)** - React hooks for Ethereum
+- **[Viem](https://viem.sh/)** - TypeScript interface for Ethereum
+- **[RainbowKit](https://rainbowkit.com/)** - Wallet connection UI
+- **[Ethers.js 6.15.0](https://ethers.org/)** - Ethereum library
 
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web application framework
-- **WebSocket** - Real-time communication
-- **MongoDB** - Document database
+### Backend & Database
+- **[AWS DynamoDB](https://aws.amazon.com/dynamodb/)** - NoSQL database for player scores
+- **[JWT](https://jwt.io/)** - Authentication tokens
+- **[Chainlink Functions](https://chain.link/)** - Decentralized computing (integration ready)
+
+### Development Tools
+- **[pnpm](https://pnpm.io/)** - Package manager
+- **[PostCSS](https://postcss.org/)** - CSS processing
+- **[ESLint](https://eslint.org/)** - Code linting
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-Ensure you have the following installed:
+Before you begin, ensure you have the following installed:
 - **Node.js** >= 18.0.0
-- **npm** >= 8.0.0 or **yarn** >= 1.22.0 or **pnpm** >= 8.0.0
+- **pnpm** >= 8.0.0 (recommended) or **npm** >= 8.0.0
 - **Git**
-- **MetaMask** browser extension
+- **MetaMask** or other Web3 wallet (for testing)
 
 ### Installation
 
@@ -112,249 +113,300 @@ Ensure you have the following installed:
    pnpm install
    # or
    npm install
-   # or
-   yarn install
    ```
 
-4. **Environment setup**
+### Environment Setup
+
+1. **Create environment file**
    ```bash
    cp .env.example .env.local
    ```
-   
-   Configure your environment variables:
+
+2. **Configure your environment variables**
    ```env
-   NEXT_PUBLIC_INFURA_ID=your_infura_project_id
-   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_project_id
-   MONGODB_URI=your_mongodb_connection_string
-   CONTRACT_ADDRESS=deployed_contract_address
+   # AWS Configuration (for player scores)
+   AWS_REGION=us-east-1
+   AWS_ACCESS_KEY_ID=your_access_key_id
+   AWS_SECRET_ACCESS_KEY=your_secret_access_key
+   
+   # Chainlink Functions (optional)
    PRIVATE_KEY=your_private_key_for_deployment
+   
+   # Smart Contract (when ready)
+   NEXT_PUBLIC_CONTRACT_ADDRESS=your_contract_address
+   NEXT_PUBLIC_CONTRACT_ABI=your_contract_abi
+   
+   # JWT Secret
+   JWT_SECRET=your_jwt_secret_key
    ```
 
-5. **Start the development server**
+3. **Start the development server**
    ```bash
    pnpm dev
    # or
    npm run dev
-   # or
-   yarn dev
    ```
 
-6. **Open your browser**
+4. **Open your browser**
    Navigate to `http://localhost:3000`
 
 ## 🎯 Usage
 
 ### Connecting Your Wallet
 
-1. Click "Connect Wallet" in the top navigation
-2. Choose your preferred wallet (MetaMask recommended)
-3. Approve the connection request
-4. Ensure you have sufficient funds for gas fees
+1. Click the "Connect Wallet" button in the top navigation
+2. Select your preferred wallet (MetaMask recommended)
+3. Approve the connection request in your wallet
+4. Sign the authentication message when prompted
 
 ### Playing the Game
 
-1. **Place Your Bet**: Choose your bet amount
-2. **Deal Cards**: Click "Deal" to start the round
-3. **Make Decisions**: Hit, Stand, Double Down, or Split
-4. **Win Rewards**: Earn cryptocurrency and potential NFTs
+1. **Connect Wallet** - First connect your Web3 wallet
+2. **Start Game** - The game initializes automatically after wallet connection
+3. **View Cards** - See your hand and the dealer's cards
+4. **Game Actions** - Use Hit, Stand, and other action buttons
+5. **Track Score** - Monitor your game score and statistics
 
-### Earning NFTs
+### Supported Networks
 
-- **First Win**: Welcome NFT card
-- **Blackjack**: Special Blackjack achievement NFT
-- **Win Streak**: Consecutive wins unlock rare NFTs
-- **High Roller**: Large bet amounts earn exclusive cards
-
-## 📚 Game Rules
-
-### Basic Rules
-- Goal: Get closer to 21 than the dealer without going over
-- Number cards worth face value, face cards worth 10, Aces worth 1 or 11
-- Blackjack (21 with first 2 cards) pays 3:2
-- Insurance available when dealer shows Ace
-
-### Payouts
-| Hand Type | Payout |
-|-----------|--------|
-| Blackjack | 3:2 |
-| Regular Win | 1:1 |
-| Insurance | 2:1 |
-| Push | Even |
-
-### Special Actions
-- **Hit**: Take another card
-- **Stand**: Keep current hand
-- **Double Down**: Double bet, take one card
-- **Split**: Split pairs into two hands
-- **Insurance**: Side bet when dealer shows Ace
-
-## 📖 API Documentation
-
-### REST Endpoints
-
-#### Game Operations
-```http
-POST /api/game/start
-Content-Type: application/json
-
-{
-  "playerAddress": "0x...",
-  "betAmount": "0.1"
-}
-```
-
-#### Player Statistics
-```http
-GET /api/player/:address/stats
-```
-
-Response:
-```json
-{
-  "totalGames": 150,
-  "wins": 75,
-  "winRate": 0.5,
-  "totalWinnings": "5.75",
-  "nftsEarned": 8
-}
-```
-
-### WebSocket Events
-
-```javascript
-// Connect to game updates
-socket.on('gameUpdate', (data) => {
-  console.log('Game state:', data);
-});
-
-// Send player action
-socket.emit('playerAction', {
-  action: 'hit',
-  gameId: 'game_123'
-});
-```
-
-## 🔗 Smart Contract
-
-### Contract Addresses
-
-| Network | Address |
-|---------|---------|
-| Ethereum Mainnet | `0x...` |
-| Polygon | `0x...` |
-| BSC | `0x...` |
-| Sepolia (Testnet) | `0x...` |
-
-### Key Functions
-
-```solidity
-// Place a bet and start game
-function startGame(uint256 betAmount) external payable;
-
-// Player actions during game
-function hit(uint256 gameId) external;
-function stand(uint256 gameId) external;
-function doubleDown(uint256 gameId) external payable;
-
-// Get game state
-function getGameState(uint256 gameId) external view returns (GameState);
-```
+The application supports the following blockchain networks:
+- **Ethereum Mainnet** - For production gameplay
+- **Sepolia Testnet** - For testing without real funds
+- **Avalanche Fuji** - Avalanche test network
+- **Ronin Saigon Testnet** - For gaming-focused testing
 
 ## 📁 Project Structure
 
 ```
 blackjack-web3.0/
-├── web3-blackjack-dev/           # Main project directory
+├── web3-blackjack-dev/           # Main application directory
 │   ├── src/
-│   │   ├── app/                  # Next.js app directory
-│   │   │   ├── page.tsx         # Home page
+│   │   ├── app/                  # Next.js 14 app directory
+│   │   │   ├── page.tsx         # Main game page
 │   │   │   ├── layout.tsx       # Root layout
 │   │   │   ├── globals.css      # Global styles
 │   │   │   ├── providers.tsx    # Context providers
 │   │   │   ├── api/             # API routes
-│   │   │   ├── debug/           # Debug page
-│   │   │   └── showcase/        # Showcase page
+│   │   │   │   └── route.ts     # Game API and database
+│   │   │   ├── debug/           # Debug utilities
+│   │   │   │   └── page.tsx     # Debug page
+│   │   │   └── showcase/        # Card showcase
+│   │   │       └── page.tsx     # Design showcase
 │   │   ├── components/          # React components
-│   │   │   ├── LuxuryCard.tsx   # Luxury card component
-│   │   │   └── SuitIcon.tsx     # Card suit icon
+│   │   │   ├── LuxuryCard.tsx   # Luxury playing card
+│   │   │   └── SuitIcon.tsx     # Card suit icons
 │   │   └── wagmi.ts            # Wagmi configuration
 │   ├── public/                  # Static assets
 │   │   └── images/
 │   │       └── cards/          # Card images
 │   ├── package.json            # Dependencies
 │   ├── next.config.js          # Next.js configuration
-│   ├── tailwind.config.js      # Tailwind CSS configuration
+│   ├── tailwind.config.js      # Tailwind configuration
 │   ├── tsconfig.json           # TypeScript configuration
-│   └── uploadSecretToDON.js    # Chainlink Functions upload script
+│   ├── uploadSecretToDON.js    # Chainlink Functions script
+│   ├── LUXURY_CARDS_README.md  # Card design documentation
+│   └── README.md              # Project documentation
 └── README.md                   # This file
 ```
 
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+# Start development server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Start production server
+pnpm start
+
+# Run linting
+pnpm lint
+```
+
+### Development Guidelines
+
+1. **Code Style**: Follow TypeScript and ESLint conventions
+2. **Components**: Use functional components with hooks
+3. **Styling**: Utilize Tailwind CSS classes
+4. **Web3**: Use Wagmi hooks for blockchain interactions
+5. **State**: Manage state with React hooks and context
+
+### Key Components
+
+#### LuxuryCard Component
+```tsx
+import { LuxuryCard } from '@/components/LuxuryCard';
+
+<LuxuryCard
+  rank="A"
+  suit="♠"
+  className="animate-float"
+  style={{ animationDelay: '200ms' }}
+/>
+```
+
+#### Supported Cards
+- **Ranks**: A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K
+- **Suits**: ♠ (Spades), ♥ (Hearts), ♦ (Diamonds), ♣ (Clubs)
+
+### Database Schema (AWS DynamoDB)
+
+```typescript
+interface PlayerScore {
+  Player: string;        // Wallet address (Primary Key)
+  Score: number;         // Player's total score
+  GamesPlayed: number;   // Total games played
+  LastPlayed: string;    // ISO timestamp of last game
+}
+```
+
+## 🚀 Deployment
+
+### Vercel Deployment (Recommended)
+
+1. **Connect to Vercel**
+   ```bash
+   # Install Vercel CLI
+   npm install -g vercel
+   
+   # Deploy
+   vercel
+   ```
+
+2. **Environment Variables**
+   Set the following in Vercel dashboard:
+   - `AWS_REGION`
+   - `AWS_ACCESS_KEY_ID`
+   - `AWS_SECRET_ACCESS_KEY`
+   - `JWT_SECRET`
+   - `NEXT_PUBLIC_CONTRACT_ADDRESS` (when available)
+   - `NEXT_PUBLIC_CONTRACT_ABI` (when available)
+
+### Manual Deployment
+
+```bash
+# Build the application
+pnpm build
+
+# Start production server
+pnpm start
+```
+
+## 🎯 Roadmap
+
+### Phase 1: Foundation ✅
+- [x] Basic UI/UX implementation
+- [x] Luxury card design system
+- [x] Web3 wallet integration
+- [x] Multi-chain support
+- [x] Player score tracking
+
+### Phase 2: Game Logic (In Progress)
+- [ ] Complete Blackjack game implementation
+- [ ] Dealer AI logic
+- [ ] Game state management
+- [ ] Win/loss calculations
+- [ ] Betting system
+
+### Phase 3: Blockchain Integration (Planned)
+- [ ] Smart contract development
+- [ ] On-chain game logic
+- [ ] Provably fair randomness
+- [ ] Cryptocurrency betting
+- [ ] Transaction handling
+
+### Phase 4: Advanced Features (Future)
+- [ ] NFT rewards system
+- [ ] Tournament mode
+- [ ] Leaderboards
+- [ ] Social features
+- [ ] Mobile app
+
 ## 🤝 Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+We welcome contributions from the community! Here's how you can help:
+
+### How to Contribute
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add some amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
 ### Development Process
 
-1. **Fork** the Project
-2. **Create** your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the Branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
+1. Check existing [issues](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues)
+2. Create an issue for new features or bugs
+3. Follow the coding standards
+4. Write clear commit messages
+5. Update documentation as needed
 
 ### Guidelines
 
-- Follow the existing code style
+- Follow TypeScript best practices
+- Use Tailwind CSS for styling
 - Write meaningful commit messages
-- Add tests for new features
-- Update documentation as needed
-- Ensure all tests pass
-
-### Code Style
-
-We use:
-- **ESLint** for JavaScript/TypeScript linting
-- **Prettier** for code formatting
-- **Husky** for git hooks
-- **Conventional Commits** for commit messages
+- Test your changes thoroughly
+- Update README if needed
 
 ## 🐛 Issues and Support
 
-Found a bug or need help? We're here to help!
+Having trouble? We're here to help!
 
-- **Bug Reports**: [Create an issue](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues/new?template=bug_report.md)
-- **Feature Requests**: [Request a feature](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues/new?template=feature_request.md)
-- **Security Issues**: Email security@blackjack-web3.com
+- 🐛 **Bug Reports**: [Create an issue](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues/new?template=bug_report.md)
+- 💡 **Feature Requests**: [Request a feature](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues/new?template=feature_request.md)
+- 💬 **Questions**: [Join discussions](https://github.com/NeoWeb3Nova/blackjack-web3.0/discussions)
+- 🔒 **Security**: Email security@example.com
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+```
+MIT License
+
+Copyright (c) 2024 NeoWeb3Nova
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
 ## 📞 Contact
 
 **Project Maintainer**: NeoWeb3Nova
 
-- 🐦 Twitter: [@NeoWeb3Nova](https://twitter.com/NeoWeb3Nova)
-- 📧 Email: contact@blackjack-web3.com
-- 💬 Discord: [Join our community](https://discord.gg/blackjack-web3)
-- 🌐 Website: [blackjack-web3.com](https://blackjack-web3.com)
-
-**Project Link**: [https://github.com/NeoWeb3Nova/blackjack-web3.0](https://github.com/NeoWeb3Nova/blackjack-web3.0)
+- 🐙 **GitHub**: [@NeoWeb3Nova](https://github.com/NeoWeb3Nova)
+- 📧 **Email**: contact@example.com
+- 🌐 **Project Link**: [https://github.com/NeoWeb3Nova/blackjack-web3.0](https://github.com/NeoWeb3Nova/blackjack-web3.0)
 
 ## 🙏 Acknowledgments
 
-Special thanks to:
+Special thanks to the open-source community and these amazing projects:
 
-- **OpenZeppelin** - For secure smart contract libraries
-- **Hardhat** - For excellent development tools
-- **Vercel** - For seamless deployment platform
-- **MetaMask** - For wallet integration
-- **Next.js Community** - For amazing ecosystem
+- **[Next.js](https://nextjs.org/)** - For the amazing React framework
+- **[Wagmi](https://wagmi.sh/)** - For excellent Web3 React hooks  
+- **[RainbowKit](https://rainbowkit.com/)** - For beautiful wallet connection UI
+- **[Tailwind CSS](https://tailwindcss.com/)** - For utility-first CSS framework
+- **[Chainlink](https://chain.link/)** - For decentralized oracle services
+- **[AWS](https://aws.amazon.com/)** - For cloud infrastructure services
 - **All Contributors** - For making this project possible
 
 ---
 
-**[⬆ Back to Top](#blackjack-web30)**
+**⭐ Star this repository if you find it useful!**
+
+**[⬆ Back to Top](#-web30-blackjack-casino)**
 
 Made with ❤️ by the Web3.0 Gaming Community
-
-[![Built with Love](https://img.shields.io/badge/Built%20with-Love-red?style=for-the-badge&logo=heart)](https://github.com/NeoWeb3Nova/blackjack-web3.0)
