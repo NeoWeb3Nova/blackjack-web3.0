@@ -1,7 +1,5 @@
 # Blackjack Web3.0
 
-<div align="center">
-
 ![Blackjack Web3.0 Logo](https://via.placeholder.com/200x100/1a1a1a/00ff88?text=Blackjack+Web3.0)
 
 **A decentralized Blackjack game built on Web3.0 technologies**
@@ -13,9 +11,7 @@
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-[Demo](https://blackjack-web3-demo.vercel.app) • [Documentation](docs/) • [Report Bug](https://github.com/username/blackjack-web3.0/issues) • [Request Feature](https://github.com/username/blackjack-web3.0/issues)
-
-</div>
+[Demo](https://blackjack-web3-demo.vercel.app) • [Documentation](docs/) • [Report Bug](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues) • [Request Feature](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues)
 
 ## 📖 Table of Contents
 
@@ -74,7 +70,7 @@ Blackjack Web3.0 is a decentralized implementation of the classic Blackjack card
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first CSS framework
 - **Framer Motion** - Smooth animations and transitions
-- **Vite** - Fast build tool and dev server
+- **Next.js** - React framework for production
 
 ### Web3.0
 - **Web3.js** - Ethereum JavaScript API
@@ -94,7 +90,7 @@ Blackjack Web3.0 is a decentralized implementation of the classic Blackjack card
 
 Ensure you have the following installed:
 - **Node.js** >= 18.0.0
-- **npm** >= 8.0.0 or **yarn** >= 1.22.0
+- **npm** >= 8.0.0 or **yarn** >= 1.22.0 or **pnpm** >= 8.0.0
 - **Git**
 - **MetaMask** browser extension
 
@@ -102,18 +98,25 @@ Ensure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/username/blackjack-web3.0.git
+   git clone https://github.com/NeoWeb3Nova/blackjack-web3.0.git
    cd blackjack-web3.0
    ```
 
-2. **Install dependencies**
+2. **Navigate to the project directory**
    ```bash
+   cd web3-blackjack-dev
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pnpm install
+   # or
    npm install
    # or
    yarn install
    ```
 
-3. **Environment setup**
+4. **Environment setup**
    ```bash
    cp .env.example .env.local
    ```
@@ -127,14 +130,16 @@ Ensure you have the following installed:
    PRIVATE_KEY=your_private_key_for_deployment
    ```
 
-4. **Start the development server**
+5. **Start the development server**
    ```bash
+   pnpm dev
+   # or
    npm run dev
    # or
    yarn dev
    ```
 
-5. **Open your browser**
+6. **Open your browser**
    Navigate to `http://localhost:3000`
 
 ## 🎯 Usage
@@ -259,26 +264,29 @@ function getGameState(uint256 gameId) external view returns (GameState);
 
 ```
 blackjack-web3.0/
-├── contracts/                 # Smart contracts
-│   ├── Blackjack.sol         # Main game contract
-│   ├── BlackjackNFT.sol      # NFT rewards contract
-│   └── test/                 # Contract tests
-├── src/
-│   ├── components/           # React components
-│   │   ├── Game/            # Game-related components
-│   │   ├── UI/              # Reusable UI components
-│   │   └── Web3/            # Web3 integration
-│   ├── hooks/               # Custom React hooks
-│   ├── services/            # API and Web3 services
-│   ├── utils/               # Utility functions
-│   └── types/               # TypeScript type definitions
-├── public/                  # Static assets
-├── docs/                    # Documentation
-├── scripts/                 # Deployment scripts
-├── .env.example            # Environment template
-├── hardhat.config.js       # Hardhat configuration
-├── package.json
-└── README.md
+├── web3-blackjack-dev/           # Main project directory
+│   ├── src/
+│   │   ├── app/                  # Next.js app directory
+│   │   │   ├── page.tsx         # Home page
+│   │   │   ├── layout.tsx       # Root layout
+│   │   │   ├── globals.css      # Global styles
+│   │   │   ├── providers.tsx    # Context providers
+│   │   │   ├── api/             # API routes
+│   │   │   ├── debug/           # Debug page
+│   │   │   └── showcase/        # Showcase page
+│   │   ├── components/          # React components
+│   │   │   ├── LuxuryCard.tsx   # Luxury card component
+│   │   │   └── SuitIcon.tsx     # Card suit icon
+│   │   └── wagmi.ts            # Wagmi configuration
+│   ├── public/                  # Static assets
+│   │   └── images/
+│   │       └── cards/          # Card images
+│   ├── package.json            # Dependencies
+│   ├── next.config.js          # Next.js configuration
+│   ├── tailwind.config.js      # Tailwind CSS configuration
+│   ├── tsconfig.json           # TypeScript configuration
+│   └── uploadSecretToDON.js    # Chainlink Functions upload script
+└── README.md                   # This file
 ```
 
 ## 🤝 Contributing
@@ -313,8 +321,8 @@ We use:
 
 Found a bug or need help? We're here to help!
 
-- **Bug Reports**: [Create an issue](https://github.com/username/blackjack-web3.0/issues/new?template=bug_report.md)
-- **Feature Requests**: [Request a feature](https://github.com/username/blackjack-web3.0/issues/new?template=feature_request.md)
+- **Bug Reports**: [Create an issue](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues/new?template=bug_report.md)
+- **Feature Requests**: [Request a feature](https://github.com/NeoWeb3Nova/blackjack-web3.0/issues/new?template=feature_request.md)
 - **Security Issues**: Email security@blackjack-web3.com
 
 ## 📄 License
@@ -323,14 +331,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-**Project Maintainer**: Your Name
+**Project Maintainer**: NeoWeb3Nova
 
-- 🐦 Twitter: [@yourhandle](https://twitter.com/yourhandle)
+- 🐦 Twitter: [@NeoWeb3Nova](https://twitter.com/NeoWeb3Nova)
 - 📧 Email: contact@blackjack-web3.com
 - 💬 Discord: [Join our community](https://discord.gg/blackjack-web3)
 - 🌐 Website: [blackjack-web3.com](https://blackjack-web3.com)
 
-**Project Link**: [https://github.com/username/blackjack-web3.0](https://github.com/username/blackjack-web3.0)
+**Project Link**: [https://github.com/NeoWeb3Nova/blackjack-web3.0](https://github.com/NeoWeb3Nova/blackjack-web3.0)
 
 ## 🙏 Acknowledgments
 
@@ -340,17 +348,13 @@ Special thanks to:
 - **Hardhat** - For excellent development tools
 - **Vercel** - For seamless deployment platform
 - **MetaMask** - For wallet integration
-- **React Community** - For amazing ecosystem
+- **Next.js Community** - For amazing ecosystem
 - **All Contributors** - For making this project possible
 
 ---
-
-<div align="center">
 
 **[⬆ Back to Top](#blackjack-web30)**
 
 Made with ❤️ by the Web3.0 Gaming Community
 
-[![Built with Love](https://img.shields.io/badge/Built%20with-Love-red?style=for-the-badge&logo=heart)](https://github.com/username/blackjack-web3.0)
-
-</div>
+[![Built with Love](https://img.shields.io/badge/Built%20with-Love-red?style=for-the-badge&logo=heart)](https://github.com/NeoWeb3Nova/blackjack-web3.0)
